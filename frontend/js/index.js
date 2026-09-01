@@ -23,7 +23,7 @@ const response = data.data
 console.log(response)
 
     } catch (error) {
+        window.alert(error)
         throw Error(error)
-        // will have error handler functyion which will display a custokmm error on frontwend with some style
     }
 }

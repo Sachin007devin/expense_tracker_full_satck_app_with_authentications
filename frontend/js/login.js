@@ -4,7 +4,7 @@ if (form) {
     form.addEventListener('submit', async (event) => handleFormSubmit(event))
 }
 
-const USER_API_URL = 'https://localhost/7777/users/login'
+const USER_API_URL = 'http://localhost:7777/users/login'
 
 async function handleFormSubmit(event) {
     try {

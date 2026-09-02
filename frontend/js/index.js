@@ -22,6 +22,8 @@ async function handleFormSubmit(event) {
         const response = data.data
         console.log(response)
 
+        form.reset()
+
     } catch (error) {
         window.alert(error)
         throw Error(error)

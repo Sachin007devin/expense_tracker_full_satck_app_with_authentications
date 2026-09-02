@@ -2,6 +2,8 @@ const centralHandler = require('../utils/central.handler')
 const userModel = require('../models/user.model')
 const { findUserByEmail } = require('../services/user.dbWork')
 
+const bcrypt = require('bcrypt')
+
 const registerUser = async (req, res) => {
     try {
 
@@ -30,10 +32,12 @@ const registerUser = async (req, res) => {
             return
         }
 
+        const hashedPassword = await bcrypt.hash(user_password, 10)
+
         const user = await userModel.create({
             Username: user_name,
             Email: user_email,
-            password: user_password
+            password: hashedPassword
         })
         const dataObj = {
             statusCode: 201,
@@ -80,7 +84,9 @@ const loginUser = async (req, res) => {
             return
         }
 
-        if(isUserExist.password !== user_password){
+        const isPasswordCorrect = bcrypt.compare(user_password, isUserExist.password)
+
+        if (!isPasswordCorrect) {
             const err = {
                 statusCode: 401,
                 error: 'unAuthorized Access',
@@ -92,7 +98,7 @@ const loginUser = async (req, res) => {
         const dataObj = {
             statusCode: 200,
             message: 'user logged in Successfully',
-            data: isUserExist
+            data:isUserExist
         }
 
         centralHandler.response(res, dataObj)

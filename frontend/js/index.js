@@ -23,6 +23,8 @@ async function handleFormSubmit(event) {
         console.log(response)
 
         form.reset()
+        window.location.href = 'expense.html'
+
 
     } catch (error) {
         window.alert(error)

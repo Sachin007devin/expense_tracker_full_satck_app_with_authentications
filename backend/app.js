@@ -9,15 +9,16 @@ const db = require('./utils/db.connection')
 require('./models/user.model')
 
 //routes
-const userRoutes = require('./routes/user.routes')
-
+const userRouter = require('./routes/user.routes')
+const expenseRouter=  require('./routes/expense.route')
 
 //middleware
 app.use(cors({
     origin:'*'
 }))
 app.use(express.json())
-app.use('/users',userRoutes)
+app.use('/users',userRouter)
+app.use('/expense',expenseRouter)
 
 
 db.sync({alter:true}).then(()=>{

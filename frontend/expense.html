@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker App</title>
+</head>
+<body>
+    
+<form>
+    <label for="expense_amount"> Choose ExpenseAmount:</label>
+    <input type="number" required id="expense_amount" placeholder="Enter Expense Amount" name="expense_amount"/>
+    
+    <label for="expense_description">Enter Description :</label>
+    <input type="text" required id="expense_description" placeholder="Enter Expense Description" name="expense_description"/> 
+
+    <label for="expense_category"> Choose Expense Category:</label>
+    <select id="expense_category" default="" name="expense_category">
+    <option value="On Vaccation">On Vaccation</option>
+    <option value="diesel">diesel</option>
+    <option value="toffe">toffe</option>
+    <option value="movie">movie</option>
+    </select>
+    <button type="submit" id="expns_btn">Add Expense</button>
+</form>
+<ul></ul>
+</body>
+<script src="./js/expense.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.19.0/axios.min.js"></script>
+</html>

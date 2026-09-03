@@ -47,7 +47,7 @@ else{
 
    const updatedData =  await axios.put(`${API_URL}/update/${updateId}`,obj)
 //    console.log(updatedData.data.data[0])
-   const updatedDataResponse = updatedData.data.data[0]
+   const updatedDataResponse = updatedData.data.data
 
 sessionStorage.removeItem('id')
 

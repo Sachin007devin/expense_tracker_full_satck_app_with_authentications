@@ -3,6 +3,7 @@ const userModel = require('../models/user.model')
 const { findUserByEmail } = require('../services/user.dbWork')
 
 const bcrypt = require('bcrypt')
+const generateToken = require('../services/token.generate')
 
 const registerUser = async (req, res) => {
     try {
@@ -39,10 +40,13 @@ const registerUser = async (req, res) => {
             Email: user_email,
             password: hashedPassword
         })
+
+        const token = await generateToken(user.id, user.Username)
         const dataObj = {
             statusCode: 201,
             message: 'user registered Successfully',
-            data: user
+            data: user,
+            token
         }
 
         centralHandler.response(res, dataObj)
@@ -95,10 +99,13 @@ const loginUser = async (req, res) => {
             centralHandler.errorResponse(res, err)
             return
         }
+
+        const token = await generateToken(isUserExist.id, isUserExist.Username)
+
         const dataObj = {
             statusCode: 200,
             message: 'user logged in Successfully',
-            data:isUserExist
+            token
         }
 
         centralHandler.response(res, dataObj)

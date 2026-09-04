@@ -1,0 +1,67 @@
+body {
+    background: #6cb8fb96;
+}
+
+.form_container {
+    display: flex;
+    max-height: 20vh;
+    min-height: 6vh;
+    height: 15vh;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+form>label {
+    padding-right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+form>input,
+select {
+    margin-right: 10px;
+    border: 2px solid gold;
+    padding: 3px;
+}
+
+form>button {
+    border: 2px solid gold;
+    background: #ebdd5e99;
+    padding: 3px;
+    font-weight: bold;
+}
+
+li {
+    list-style: number;
+    text-decoration: none;
+}
+
+li>button {
+    margin-left: 30px;
+    margin-right: 20px;
+    border: 2px solid gold;
+    background: #ebdd5e99;
+    padding: 3px;
+    font-weight: bold;
+}
+
+
+
+
+
+/* .. psuedo selector */
+
+.add_expns:hover {
+    background: #2ecb2e85;
+}
+
+.delete_expns:hover {
+    background: #ff0000a6;
+    border: 2px solid black;
+}
+
+.edit_expns:hover {
+    background: #6fe6d1de;
+    border: 2px solid black;
+}

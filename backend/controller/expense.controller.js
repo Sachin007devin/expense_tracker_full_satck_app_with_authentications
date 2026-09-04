@@ -45,7 +45,14 @@ const addExpense = async (req, res) => {
 
 const getExpenses = async (req, res) => {
     try {
-        const expenses = await expenseModel.findAll()
+        const userDetail = req.user
+        console.log('userdetail from controller <<<<',userDetail)
+        console.log('userId >>>>' , userDetail.id)
+        const expenses = await expenseModel.findAll({
+            where:{
+                UserId:userDetail.id
+            }
+        })
         if (expenses.length === 0) {
             const err = {
                 statusCode: 404,

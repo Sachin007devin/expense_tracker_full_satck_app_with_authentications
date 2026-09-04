@@ -6,7 +6,7 @@ const cors = require('cors')
 const db = require('./utils/db.connection')
 
 //models
-require('./models/user.model')
+require('./models')
 
 //routes
 const userRouter = require('./routes/user.routes')

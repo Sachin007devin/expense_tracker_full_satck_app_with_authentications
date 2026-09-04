@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => initialize())
 const form = document.querySelector('form')
 
 const API_URL = 'http://Localhost:7777/expense'
+const token = localStorage.getItem('token')
 
 if(form){
     form.addEventListener('submit', async (event) => handleSubmit(event))
@@ -9,7 +10,7 @@ if(form){
 
 async function initialize(){
     try {
-        const getAllExpense = await axios.get(`${API_URL}`)
+        const getAllExpense = await axios.get(`${API_URL}`,{headers :{'Authorization':token}})
         console.log(getAllExpense)
         console.log(getAllExpense.data.data,'from initialize')
         

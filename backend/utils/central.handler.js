@@ -2,10 +2,12 @@ const response = (res,dataObj) => {
     const statusCode = dataObj.statusCode
     const message = dataObj.message
     const data = dataObj.data
+    const token = dataObj?.token
     res.status(statusCode).json({
         success: true,
         message,
-        data
+        data,
+        token
     })
 }
 

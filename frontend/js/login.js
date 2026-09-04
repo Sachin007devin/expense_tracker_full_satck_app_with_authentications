@@ -17,8 +17,11 @@ async function handleFormSubmit(event) {
         const payload = { user_email, user_password }
 
         const { data } = await axios.post(USER_API_URL, payload)
-        const response = data.data
-        console.log(response)
+
+        console.log(data)
+
+        window.alert(data.message)
+        localStorage.setItem('token', data.token)
 
         form.reset()
         window.location.href = 'expense.html'

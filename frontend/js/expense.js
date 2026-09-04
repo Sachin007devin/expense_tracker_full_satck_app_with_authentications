@@ -66,8 +66,8 @@ expns_btn.firstChild.data = 'Add Expense'
 }
 
 async function addData(expnseObj){
-    const {data} =  await axios.post(`${API_URL}`,expnseObj)
-   console.log(data.data.data,'from add')
+    const {data} =  await axios.post(`${API_URL}`,expnseObj,{headers :{'Authorization':token}})
+   console.log(data.data,'from add')
    const dataResponse = data.data
     display(dataResponse)
 }
@@ -94,7 +94,7 @@ function display(data){
 
 async function deletData(id){
     const li = document.getElementById(id)
-    await axios.delete(`${API_URL}/delete/${id}`)
+    await axios.delete(`${API_URL}/delete/${id}`,{headers :{'Authorization':token}})
     li.remove()
 }
 

@@ -5,6 +5,7 @@ const centralHandler = require('../utils/central.handler')
 const addExpense = async (req, res) => {
     try {
         const { expense_amount, expense_description, expense_category } = req.body
+        const userDetail = req.user
 
         if (!expense_amount || !expense_description || !expense_category) {
             const err = {
@@ -19,7 +20,8 @@ const addExpense = async (req, res) => {
         const expense = await expenseModel.create({
             Amount: expense_amount,
             Description: expense_description,
-            Category: expense_category
+            Category: expense_category,
+            UserId: userDetail.id
         })
 
         const dataObj = {
@@ -46,11 +48,11 @@ const addExpense = async (req, res) => {
 const getExpenses = async (req, res) => {
     try {
         const userDetail = req.user
-        console.log('userdetail from controller <<<<',userDetail)
-        console.log('userId >>>>' , userDetail.id)
+        console.log('userdetail from controller <<<<', userDetail)
+        console.log('userId >>>>', userDetail.id)
         const expenses = await expenseModel.findAll({
-            where:{
-                UserId:userDetail.id
+            where: {
+                UserId: userDetail.id
             }
         })
         if (expenses.length === 0) {
@@ -171,10 +173,12 @@ const getExpenseByid = async (req, res) => {
 const deleteExpense = async (req, res) => {
     try {
         const { id } = req.params
+        const userDetail = req.user
 
         const isExpenseDeleted = await expenseModel.destroy({
             where: {
-                id: id
+                id: id,
+                UserId:userDetail.id
             }
         })
 

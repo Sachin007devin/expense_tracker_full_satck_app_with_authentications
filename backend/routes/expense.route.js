@@ -9,9 +9,9 @@ router.post('/',authentication.authenticate,expenseController.addExpense)
 
 router.get('/',authentication.authenticate,expenseController.getExpenses)
 
-router.get('/:id',expenseController.getExpenseByid)
+router.get('/:id',authentication.authenticate,expenseController.getExpenseByid)
 
-router.put('/update/:id',expenseController.editExpense)
+router.put('/update/:id',authentication.authenticate,expenseController.editExpense)
 
 router.delete('/delete/:id',authentication.authenticate,expenseController.deleteExpense)
 

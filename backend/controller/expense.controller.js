@@ -1,4 +1,3 @@
-const { where } = require('sequelize')
 const expenseModel = require('../models/expense.model')
 const centralHandler = require('../utils/central.handler')
 
@@ -85,6 +84,7 @@ const getExpenses = async (req, res) => {
 const editExpense = async (req, res) => {
     try {
         const { id } = req.params
+ const userDetail = req.user
 
         const { expense_amount, expense_description, expense_category } = req.body
 
@@ -98,7 +98,12 @@ const editExpense = async (req, res) => {
             return
         }
 
-        const expense = await expenseModel.findByPk(id)
+       const expense = await expenseModel.findOne({
+            where: {
+                id: id,
+                UserId: userDetail.id
+            }
+        })
 
         if (!expense) {
             const err = {
@@ -138,8 +143,13 @@ const editExpense = async (req, res) => {
 const getExpenseByid = async (req, res) => {
     try {
         const { id } = req.params
-
-        const expense = await expenseModel.findByPk(id)
+        const userDetail = req.user
+        const expense = await expenseModel.findOne({
+            where: {
+                id: id,
+                UserId: userDetail.id
+            }
+        })
 
         if (!expense) {
             const err = {
@@ -178,7 +188,7 @@ const deleteExpense = async (req, res) => {
         const isExpenseDeleted = await expenseModel.destroy({
             where: {
                 id: id,
-                UserId:userDetail.id
+                UserId: userDetail.id
             }
         })
 

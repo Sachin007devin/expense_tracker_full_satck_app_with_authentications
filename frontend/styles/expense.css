@@ -1,67 +1,170 @@
+/* General page styling */
 body {
-    background: #6cb8fb96;
+    background: linear-gradient(135deg, #6cb8fb, #e0f7fa);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* Premium button section */
+.premium {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#premium_btn {
+    background: #fbc02d;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#premium_btn:hover {
+    background: #f9a825;
+    transform: scale(1.05);
+}
+
+/* Form container */
 .form_container {
     display: flex;
-    max-height: 20vh;
-    min-height: 6vh;
-    height: 15vh;
     justify-content: center;
     align-items: center;
-    margin-bottom: 100px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffffcc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    max-width: 800px;
 }
 
-form>label {
-    padding-right: 10px;
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+form > label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-form>input,
+form > input,
 select {
-    margin-right: 10px;
     border: 2px solid gold;
-    padding: 3px;
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
-form>button {
-    border: 2px solid gold;
-    background: #ebdd5e99;
-    padding: 3px;
+form > input:focus,
+select:focus {
+    border-color: #009688;
+}
+
+form > button {
+    border: none;
+    background: #fbc02d;
+    padding: 10px 20px;
     font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-li {
-    list-style: number;
-    text-decoration: none;
+form > button:hover {
+    background: #43a047;
+    color: white;
+    transform: scale(1.05);
 }
 
-li>button {
-    margin-left: 30px;
-    margin-right: 20px;
-    border: 2px solid gold;
-    background: #ebdd5e99;
-    padding: 3px;
+/* Expense list */
+.expense_list {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffffcc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.expense_list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.expense_list li {
+    list-style: none;
+    margin: 10px 0;
+    font-size: 16px;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between; /* ✅ keeps text left, buttons right */
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-
-
-
-
-/* .. psuedo selector */
-
-.add_expns:hover {
-    background: #2ecb2e85;
-}
-
-.delete_expns:hover {
-    background: #ff0000a6;
-    border: 2px solid black;
+/* Buttons inside list */
+li button {
+    border: none;
+    background: #fbc02d;
+    padding: 6px 12px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-left: 10px;
 }
 
 .edit_expns:hover {
-    background: #6fe6d1de;
-    border: 2px solid black;
+    background: #1e88e5;
+    color: white;
+}
+
+.delete_expns:hover {
+    background: #e53935;
+    color: white;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .form_container {
+        flex-direction: column;
+        width: 90%;
+        padding: 15px;
+    }
+
+    form {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    form > input,
+    select,
+    form > button {
+        width: 100%;
+    }
+
+    .expense_list {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .expense_list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    li button {
+        width: 100%;
+        margin: 5px 0;
+    }
 }

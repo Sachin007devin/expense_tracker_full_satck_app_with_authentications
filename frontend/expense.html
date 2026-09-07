@@ -7,6 +7,9 @@
     <title>Expense Tracker App</title>
 </head>
 <body>
+    <div class="premium">
+        <button id="premium_btn">Buy Premium Features</button>
+    </div>
     <div class="form_container">
 
         <form>
@@ -27,9 +30,14 @@
         </form>
     </div>
     <div class="expense_list">
-        <ul><li>expense1<button class="edit_expns">Edit</button><button class="delete_expns">Delete</button></li></ul>
+        <!-- <ul><li>expense1<button class="edit_expns">Edit</button><button class="delete_expns">Delete</button></li></ul> -->
+         <ul></ul>
     </div>
+    <!-- Cashfree SDK (must be after your JS so it's available globally) -->
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./js/expense.js"></script>
+
 </body>
-<script src="./js/expense.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.19.0/axios.min.js"></script>
+
 </html>

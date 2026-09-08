@@ -9,6 +9,13 @@ if (form) {
     form.addEventListener('submit', async (event) => handleSubmit(event))
 }
 
+// const isPremiumUser = false
+// const leaderBoard_data = [
+//     { name: 'Pranjal', Amount: 50 },
+//     { name: 'Archi', Amount: 100 },
+//     { name: 'Sachin', Amount: 200 }
+// ]
+
 async function initialize() {
     try {
         const getAllExpense = await axios.get(`${API_URL}`, { headers: { 'Authorization': token } })
@@ -18,6 +25,25 @@ async function initialize() {
         const getAllExpenseData = getAllExpense.data.data
         for (let expenseObj of getAllExpenseData) {
             display(expenseObj)
+        }
+
+        // premium_user calls and logic
+        //1]  api call made hogi and data receive hoga jismian premium hai ki nhi pta chlega and then uss hisaab se usmain data hoga ya nhi hoga 
+        const {data} = await axios.get(`${BASE_URL}/payments/premium-status`,{ headers: { 'Authorization': token } })
+        console.log(data,'<<<<<premium user data')
+
+        const isPremiumUser = data.data.isPremiumUser
+
+        const leaderBoard_data_response = await axios.get(`${BASE_URL}/premium/LeaderBoard`,{ headers: { 'Authorization': token } }) 
+
+        
+        const leaderBoard_data = leaderBoard_data_response.data.data  // 2d array
+        console.log(leaderBoard_data,'<<<<<<<<leaderBoard_data_response')
+
+        if (isPremiumUser) {
+            const premium_user_feature = document.querySelector('#premium_user_feature')
+            premium_user_feature.style.display = 'block'
+            display_leaderBoard(leaderBoard_data)
         }
 
     } catch (error) {
@@ -123,6 +149,20 @@ async function editData(id) {
 
 }
 
+function display_leaderBoard(data) {
+    
+    const sorted_data = data.sort((a,b)=>b[1]-a[1])
+
+    const leaderBoard_ul = document.querySelector('#leaderBoard_ul')
+
+    for (let memberDetail of sorted_data) {
+        const leaderBoardMember = document.createElement('li')
+        leaderBoardMember.innerText = `${memberDetail[0]} With Expense Amount ${memberDetail[1]}`
+        leaderBoard_ul.append(leaderBoardMember)
+    }
+    console.log(document.querySelector('.leaderBoard'))
+}
+
 // premium btn logic
 
 document.getElementById("premium_btn").addEventListener("click", async () => {
@@ -146,7 +186,7 @@ document.getElementById("premium_btn").addEventListener("click", async () => {
             paymentSessionId: data.paymentSessionId,
             redirectTarget: "_self"
         });
-        console.log(result,'<<<<<<<<<result')
+        console.log(result, '<<<<<<<<<result')
         if (result.error) {
             console.log("User closed or payment failed:", result.error);
             window.location.href = `http://127.0.0.1:5500/frontend/expense.html?status=FAILED`
@@ -155,3 +195,15 @@ document.getElementById("premium_btn").addEventListener("click", async () => {
         alert("Payment failed: " + error.message);
     }
 });
+
+// show leaderBoard btn Logic
+document.getElementById('show_leaderBoard').addEventListener('click',()=>{
+    const leaderBoard = document.querySelector('.leaderBoard')
+
+     if( leaderBoard.style.display ==='none' || leaderBoard.style.display === null){
+         leaderBoard.style.display = 'block'
+     }
+     else{
+         leaderBoard.style.display = 'none'
+     }
+})

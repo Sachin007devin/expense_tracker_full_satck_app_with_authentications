@@ -1,6 +1,7 @@
 const cashfreeService = require('../services/cashfree.services')
 const centralHandler = require('../utils/central.handler')
 const paymentModel = require('../models/payment.model')
+const { where } = require('sequelize')
 
 const createOrder = async (req, res) => {
     try {
@@ -70,6 +71,48 @@ const verifyPayment = async (req, res) => {
     }
 }
 
+const checkIsUserPremium = async (req, res) => {
+    try {
+        const userId = req.user.id
+
+        const paymentStatus = await paymentModel.findOne({
+            where: {
+                userId: userId,
+                status: 'SUCCESS'
+            }
+        })
+        console.log(JSON.stringify(paymentStatus) , '<<<<<<<<<paymentstatus')
+        const stringifypaymentStatus = JSON.stringify(paymentStatus)
+
+        if (stringifypaymentStatus === 'null') {
+            const dataObj = {
+                statusCode: 404,
+                message: 'purchase premium feature first',
+                data:{isPremiumUser:false}
+            }
+            centralHandler.response(res, dataObj)
+            return
+        }
+
+        const dataObj = {
+            statusCode: 200,
+            message: 'user payment status detail fetched successfully',
+            data: { isPremiumUser: true }
+        }
+
+        centralHandler.response(res, dataObj)
+
+    } catch (error) {
+        const err = {
+            statusCode: 500,
+            error: error.message,
+            message: 'Internal server error'
+        }
+        centralHandler.errorResponse(res, err)
+        return
+    }
+}
+
 // yeh hook tbhi chelga jb production main honge hum kyuki abhi privarte network hauji hamara toh simple cashfree communicate nhi kr payega jis wjh se verify payment main manuaaly deal kiya hai humne iss chiz ko
 const handleWebhook = async (req, res) => {
     try {
@@ -81,7 +124,7 @@ const handleWebhook = async (req, res) => {
         // Update your DB
         await paymentModel.update(
             { status: payment_status, transactionId: transaction_id },
-            { where: { orderId:order_id } }
+            { where: { orderId: order_id } }
         );
 
         res.status(200).send('Webhook received');
@@ -94,5 +137,6 @@ const handleWebhook = async (req, res) => {
 module.exports = {
     createOrder,
     verifyPayment,
-    handleWebhook
+    handleWebhook,
+    checkIsUserPremium
 }

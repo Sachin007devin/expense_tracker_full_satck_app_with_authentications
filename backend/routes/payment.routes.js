@@ -8,6 +8,8 @@ router.post('/create-order',authentication.authenticate,paymentController.create
 
 router.get('/payment-status/:orderId', paymentController.verifyPayment);
 
+router.get('/premium-status',authentication.authenticate,paymentController.checkIsUserPremium)
+
 // Webhook (Cashfree will call this, no auth middleware)
 router.post('/webhook', paymentController.handleWebhook);
 

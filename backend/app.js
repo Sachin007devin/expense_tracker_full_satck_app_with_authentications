@@ -12,6 +12,7 @@ require('./models')
 const userRouter = require('./routes/user.routes')
 const expenseRouter = require('./routes/expense.route')
 const paymentRouter = require('./routes/payment.routes')
+const premiumRouter = require('./routes/premium.routes')
 
 //middleware
 app.use(cors({
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use('/users', userRouter)
 app.use('/expense', expenseRouter)
 app.use('/payments', paymentRouter)
+app.use('/premium' , premiumRouter)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Something went wrong!' })

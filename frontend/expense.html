@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/expense.css">
     <title>Expense Tracker App</title>
 </head>
+
 <body>
     <div class="premium">
         <button id="premium_btn">Buy Premium Features</button>
+        <div id="premium_user_feature">
+            <span>You are a Premium User now</span>
+            <button id="show_leaderBoard">Show LeaderBoard</button>
+        </div>
     </div>
     <div class="form_container">
 
         <form>
             <label for="expense_amount"> Choose Expense Amount:</label>
-            <input type="number" required id="expense_amount" placeholder="Enter Expense Amount" name="expense_amount"/>
-            
+            <input type="number" required id="expense_amount" placeholder="Enter Expense Amount"
+                name="expense_amount" />
+
             <label for="expense_description">Enter Description :</label>
-            <input type="text" required id="expense_description" placeholder="Enter Expense Description" name="expense_description"/> 
-        
+            <input type="text" required id="expense_description" placeholder="Enter Expense Description"
+                name="expense_description" />
+
             <label for="expense_category"> Choose Expense Category:</label>
             <select id="expense_category" default="" name="expense_category">
-            <option value="On Vaccation">On Vaccation</option>
-            <option value="diesel">diesel</option>
-            <option value="toffe">toffe</option>
-            <option value="movie">movie</option>
+                <option value="On Vaccation">On Vaccation</option>
+                <option value="diesel">diesel</option>
+                <option value="toffe">toffe</option>
+                <option value="movie">movie</option>
             </select>
             <button type="submit" id="expns_btn" class="add_expns">Add Expense</button>
         </form>
     </div>
-    <div class="expense_list">
-        <!-- <ul><li>expense1<button class="edit_expns">Edit</button><button class="delete_expns">Delete</button></li></ul> -->
-         <ul></ul>
+    <div class="display_list_leaderBoard">
+
+        <div class="expense_list">
+            <!-- <ul><li>expense1<button class="edit_expns">Edit</button><button class="delete_expns">Delete</button></li></ul> -->
+            <ul></ul>
+        </div>
+        <div class="leaderBoard">
+            <ul id="leaderBoard_ul">
+                <!-- <li>sachin sri expense 200</li>
+                <li>sachin bgr expense 100</li> -->
+            </ul>
+        </div>
     </div>
     <!-- Cashfree SDK (must be after your JS so it's available globally) -->
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="./js/expense.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/expense.js"></script>
 
 </body>
 

@@ -29,16 +29,16 @@ async function initialize() {
 
         // premium_user calls and logic
         //1]  api call made hogi and data receive hoga jismian premium hai ki nhi pta chlega and then uss hisaab se usmain data hoga ya nhi hoga 
-        const {data} = await axios.get(`${BASE_URL}/payments/premium-status`,{ headers: { 'Authorization': token } })
-        console.log(data,'<<<<<premium user data')
+        const { data } = await axios.get(`${BASE_URL}/payments/premium-status`, { headers: { 'Authorization': token } })
+        console.log(data.data.isPremiumUser, '<<<<<premium user data')
 
         const isPremiumUser = data.data.isPremiumUser
 
-        const leaderBoard_data_response = await axios.get(`${BASE_URL}/premium/LeaderBoard`,{ headers: { 'Authorization': token } }) 
+        const leaderBoard_data_response = await axios.get(`${BASE_URL}/premium/LeaderBoard`, { headers: { 'Authorization': token } })
 
-        
+
         const leaderBoard_data = leaderBoard_data_response.data.data  // 2d array
-        console.log(leaderBoard_data,'<<<<<<<<leaderBoard_data_response')
+        console.log(leaderBoard_data, '<<<<<<<<leaderBoard_data_response')
 
         if (isPremiumUser) {
             const premium_user_feature = document.querySelector('#premium_user_feature')
@@ -150,14 +150,13 @@ async function editData(id) {
 }
 
 function display_leaderBoard(data) {
-    
-    const sorted_data = data.sort((a,b)=>b[1]-a[1])
+
 
     const leaderBoard_ul = document.querySelector('#leaderBoard_ul')
 
-    for (let memberDetail of sorted_data) {
+    for (let memberDetail of data) {
         const leaderBoardMember = document.createElement('li')
-        leaderBoardMember.innerText = `${memberDetail[0]} With Expense Amount ${memberDetail[1]}`
+        leaderBoardMember.innerText = `${memberDetail.Username} With Expense Amount ${(memberDetail.total_Amount !== null ? memberDetail.total_Amount : 0)}`
         leaderBoard_ul.append(leaderBoardMember)
     }
     console.log(document.querySelector('.leaderBoard'))
@@ -197,13 +196,13 @@ document.getElementById("premium_btn").addEventListener("click", async () => {
 });
 
 // show leaderBoard btn Logic
-document.getElementById('show_leaderBoard').addEventListener('click',()=>{
+document.getElementById('show_leaderBoard').addEventListener('click', () => {
     const leaderBoard = document.querySelector('.leaderBoard')
 
-     if( leaderBoard.style.display ==='none' || leaderBoard.style.display === null){
-         leaderBoard.style.display = 'block'
-     }
-     else{
-         leaderBoard.style.display = 'none'
-     }
+    if (leaderBoard.style.display === 'none' || leaderBoard.style.display === null) {
+        leaderBoard.style.display = 'block'
+    }
+    else {
+        leaderBoard.style.display = 'none'
+    }
 })

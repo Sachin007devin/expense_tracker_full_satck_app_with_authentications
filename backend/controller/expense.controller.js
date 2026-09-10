@@ -1,4 +1,5 @@
 const expenseModel = require('../models/expense.model')
+const userModel = require('../models/user.model')
 const centralHandler = require('../utils/central.handler')
 
 const addExpense = async (req, res) => {
@@ -22,6 +23,18 @@ const addExpense = async (req, res) => {
             Category: expense_category,
             UserId: userDetail.id
         })
+
+        const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
+        const updated_total_expense = Number(total_expense) + Number(expense_amount)
+
+        console.log('total expense >>>>>',total_expense,typeof total_expense)
+        console.log('total expense >>>>>',total_expense)
+        console.log('updated total expense >>>>>',updated_total_expense)
+
+        await userModel.update(
+            {total_expense:updated_total_expense},
+            {where:{id:userDetail.id}}
+        )
 
         const dataObj = {
             statusCode: 201,
@@ -185,14 +198,12 @@ const deleteExpense = async (req, res) => {
         const { id } = req.params
         const userDetail = req.user
 
-        const isExpenseDeleted = await expenseModel.destroy({
-            where: {
-                id: id,
-                UserId: userDetail.id
-            }
-        })
+        const ExpenseDetail = await expenseModel.findByPk(id)
+        const expense_amount = ExpenseDetail.Amount
 
-        if (!isExpenseDeleted) {
+        // console.log(expense_amount,'expense deleting data <<<<<<<<<<<')
+
+        if (!ExpenseDetail) {
             const err = {
                 statusCode: 404,
                 error: 'expense not found !!',
@@ -201,6 +212,21 @@ const deleteExpense = async (req, res) => {
             centralHandler.errorResponse(res, err)
             return
         }
+
+        await ExpenseDetail.destroy()
+
+        const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
+        const updated_total_expense = Number(total_expense) - Number(expense_amount)
+
+        // console.log('total expense >>>>> subtracted',total_expense,typeof total_expense)
+        // console.log('total expense >>>>>',total_expense)
+        // console.log('updated total expense >>>>>',updated_total_expense)
+
+
+        await userModel.update(
+            {total_expense:updated_total_expense},
+            {where:{id:userDetail.id}}
+        )
 
         const dataObj = {
             statusCode: 200,

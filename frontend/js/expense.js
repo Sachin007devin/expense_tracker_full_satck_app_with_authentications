@@ -156,7 +156,7 @@ function display_leaderBoard(data) {
 
     for (let memberDetail of data) {
         const leaderBoardMember = document.createElement('li')
-        leaderBoardMember.innerText = `${memberDetail.Username} With Expense Amount ${(memberDetail.total_Amount !== null ? memberDetail.total_Amount : 0)}`
+        leaderBoardMember.innerText = `${memberDetail.Username} With Expense Amount ${(memberDetail.total_expense)}`
         leaderBoard_ul.append(leaderBoardMember)
     }
     console.log(document.querySelector('.leaderBoard'))

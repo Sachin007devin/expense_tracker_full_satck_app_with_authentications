@@ -1,35 +1,43 @@
 const centralHandler = require('../utils/central.handler')
-const expenseModel = require('../models/expense.model')
 const userModel = require('../models/user.model')
 const { Sequelize } = require('sequelize')
 
 const fetch_LeaderBoard_Data = async (req, res) => {
     try {
        
-        const userExpenseDetailArray = await userModel.findAll({
-            attributes: [
-                'id',
-                'Username',
-                // Direct SUM function without COALESCE
-                [Sequelize.fn('SUM', Sequelize.col('Expenses.Amount')), 'total_Amount']
-                // joh model defining k waqt diya ha i naam uska plural likhna hota hai naaki importation wala 
-            ],
-            include: [
-                {
-                    model: expenseModel,
-                    attributes: [],
-                    required: false // LEFT OUTER JOIN (Zero expense users include karne ke liye)
-                }
-            ],
-            group: ['id'],
-            order: [[Sequelize.literal('total_Amount'), 'DESC']],
-            raw: true
+        // const userExpenseDetailArray = await userModel.findAll({
+        //     attributes: [
+        //         'id',
+        //         'Username',
+        //         // Direct SUM function without COALESCE
+        //         [Sequelize.fn('SUM', Sequelize.col('Expenses.Amount')), 'total_Amount']
+        //         // joh model defining k waqt diya ha i naam uska plural likhna hota hai naaki importation wala 
+        //     ],
+        //     include: [
+        //         {
+        //             model: expenseModel,
+        //             attributes: [],
+        //             required: false // LEFT OUTER JOIN (Zero expense users include karne ke liye)
+        //         }
+        //     ],
+        //     group: ['id'],
+        //     order: [[Sequelize.literal('total_Amount'), 'DESC']],
+        //     raw: true
+        // })
+
+        const user = await userModel.findAll({
+            attributes:['Username','total_expense'],
+            order:[['total_expense','DESC']],
+            raw:true
+            
         })
+
+        console.log('user')
 
         const dataObj = {
             statusCode: 200,
             message: 'leaderBoard  detail fetched successfully',
-            data: userExpenseDetailArray
+            data: user
         }
 
         centralHandler.response(res,dataObj)

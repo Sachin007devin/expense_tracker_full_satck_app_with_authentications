@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
         const userDetail = jwt.verify(token, 'testingsecret')
 
         const user = await userModel.findByPk(userDetail.UserId)
-        req.user = {id: user.id, email: user.Email, username: user.Username}
+        req.user = {id: user.id, username: user.Username , total_expense:user.total_expense}
         console.log('req.user >>>>', req.user)
         next()
     } catch (error) {

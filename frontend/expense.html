@@ -14,6 +14,7 @@
         <div id="premium_user_feature">
             <span>You are a Premium User now</span>
             <button id="show_leaderBoard">Show LeaderBoard</button>
+            <button id="generate_report">Generate Report </button>
         </div>
     </div>
     <div class="form_container">
@@ -27,16 +28,24 @@
             <input type="text" required id="expense_description" placeholder="Enter Expense Description"
                 name="expense_description" />
 
-            <label for="expense_category"> Choose Expense Category:</label>
+            <!-- <label for="expense_category"> Choose Expense Category:</label>
             <select id="expense_category" default="" name="expense_category">
                 <option value="On Vaccation">On Vaccation</option>
                 <option value="diesel">diesel</option>
                 <option value="toffe">toffe</option>
                 <option value="movie">movie</option>
-            </select>
+            </select> -->
             <button type="submit" id="expns_btn" class="add_expns">Add Expense</button>
         </form>
+        <button id="income_btn" class="income_expns" disabled="true">Add Income</button>
     </div>
+    <label for="select_number_of_rows">Select Number of Expenses to display</label>
+    <select id="select_number_of_rows">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+    </select>
     <div class="display_list_leaderBoard">
 
         <div class="expense_list">
@@ -49,6 +58,15 @@
                 <li>sachin bgr expense 100</li> -->
             </ul>
         </div>
+    </div>
+    <div id="pagination">
+        <button id="previous_page" style="display: none;">1</button>
+        <button id="current_page" style="display: none;">2</button>
+        <button id="next_page" style="display: none;">3</button>
+    </div>
+    <div class="download_section" style="display: none;">
+        <h3>Previously Downloaded Expense Reports</h3>
+        <ul id="download_list"></ul>
     </div>
     <!-- Cashfree SDK (must be after your JS so it's available globally) -->
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>

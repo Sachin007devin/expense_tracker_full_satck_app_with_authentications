@@ -1,4 +1,4 @@
-const {DataTypes} = require('sequelize')
+const {DataTypes, ENUM} = require('sequelize')
 const sequelize = require('../utils/db.connection')
 
 const Expense = sequelize.define('Expense',{
@@ -17,8 +17,12 @@ const Expense = sequelize.define('Expense',{
         allowNull:false
     },
     Category:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull:false
+    },
+    IsIncome:{
+        type:DataTypes.ENUM('true','false'),
+        defaultValue:'false'
     }
 })
 

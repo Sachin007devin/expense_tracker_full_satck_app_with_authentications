@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize('expense_tracker_full_stack_db','root','9892062571',{
+const sequelize = new Sequelize(process.env.DB_NAME,'root',process.env.DB_PASSWORD,{
     host:'localhost',
     dialect:'mysql'
 })
@@ -9,7 +9,6 @@ const sequelize = new Sequelize('expense_tracker_full_stack_db','root','98920625
 const authenticate = async()=>{
     try {
         await sequelize.authenticate()
-        console.log('establishing the econnection with database')
     } catch (error) {
         throw Error(error)
     }

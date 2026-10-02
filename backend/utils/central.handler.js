@@ -1,7 +1,7 @@
 const response = (res,dataObj) => {
     const statusCode = dataObj.statusCode
     const message = dataObj.message
-    const data = dataObj.data
+    const data = dataObj?.data
     const token = dataObj?.token
     res.status(statusCode).json({
         success: true,
@@ -15,7 +15,6 @@ const errorResponse = (res, err) => {
     const statusCode = err.statusCode
     const error = err.error
     const message = err.message
-    console.log(error)
     res.status(statusCode).json({
         success: false,
         message,

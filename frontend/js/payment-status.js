@@ -1,7 +1,9 @@
 const BASE_URL = "http://localhost:7777";
 const token = localStorage.getItem("token");
 
-const orderId = window.location.pathname.split("/").pop();
+const urlParams = new URLSearchParams(window.location.search)
+
+const orderId = urlParams.get('orderId')
 
 (async () => {
  const response = await axios.get(`${BASE_URL}/payments/verify/${orderId}`, {

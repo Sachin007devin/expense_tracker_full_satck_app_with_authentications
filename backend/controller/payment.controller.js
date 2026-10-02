@@ -1,7 +1,6 @@
 const cashfreeService = require('../services/cashfree.services')
 const centralHandler = require('../utils/central.handler')
 const paymentModel = require('../models/payment.model')
-const { where } = require('sequelize')
 
 const createOrder = async (req, res) => {
     try {
@@ -34,7 +33,6 @@ const createOrder = async (req, res) => {
             error: error.message,
             message: 'Order creation failed'
         }
-        console.log(error)
         centralHandler.errorResponse(res, err)
     }
 }
@@ -47,12 +45,12 @@ const verifyPayment = async (req, res) => {
         const response = await cashfreeService.verifyOrder(orderId);
         console.log('Payment Verification Data:', response);
 
-        const paymentStatus = response.order_status; // 'PAID', 'FAILED', 'PENDING'
+        const paymentStatus = response.order_status; 
 
-        // 2. Database Status Update Karein (Webhook na aane par bhi DB update ho jayega)
+        // 2. Database Status Update Karein
         if (paymentStatus === 'PAID') {
             await paymentModel.update(
-                { status: 'SUCCESS' }, // Ya 'PAID' aapke DB schema ke according
+                { status: 'SUCCESS' }, 
                 { where: { orderId: orderId } }
             );
         } else {
@@ -81,7 +79,6 @@ const checkIsUserPremium = async (req, res) => {
                 status: 'SUCCESS'
             }
         })
-        console.log(JSON.stringify(paymentStatus) , '<<<<<<<<<paymentstatus')
         const stringifypaymentStatus = JSON.stringify(paymentStatus)
 
         if (stringifypaymentStatus === 'null') {

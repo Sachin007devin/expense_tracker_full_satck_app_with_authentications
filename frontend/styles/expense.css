@@ -1,4 +1,3 @@
-/* General page styling */
 body {
     background: linear-gradient(135deg, #6cb8fb, #e0f7fa);
     font-family: Arial, sans-serif;
@@ -71,9 +70,10 @@ body {
     background: #ffffffcc;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    max-width: 800px;
+    max-width: 900px;
 }
 
+/* Form layout */
 form {
     display: flex;
     flex-wrap: wrap;
@@ -83,6 +83,7 @@ form {
     width: 100%;
 }
 
+/* Labels and inputs */
 form > label {
     font-weight: bold;
     font-size: 16px;
@@ -102,7 +103,8 @@ select:focus {
     border-color: #009688;
 }
 
-form > button {
+/* Expense button */
+.add_expns {
     border: none;
     background: #fbc02d;
     padding: 10px 20px;
@@ -112,10 +114,35 @@ form > button {
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
-form > button:hover {
+.add_expns:hover {
     background: #43a047;
     color: white;
     transform: scale(1.05);
+}
+
+/* Income button — aligned beside expense button */
+.income_expns {
+    background: #1e88e5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+}
+
+.income_expns:hover:enabled {
+    background: #1565c0;
+    transform: scale(1.05);
+}
+
+.income_expns:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 /* Display list + leaderboard side by side */
@@ -124,7 +151,7 @@ form > button:hover {
     justify-content: center;
     gap: 20px;
     margin: 30px auto;
-    flex-wrap: wrap; /* ✅ ensures mobile stacking */
+    flex-wrap: wrap;
 }
 
 /* Expense list */
@@ -176,6 +203,85 @@ li button {
     color: white;
 }
 
+/* Label styling */
+label[for="select_number_of_rows"] {
+    display: block;
+    margin: 20px auto 10px auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #283661;
+}
+
+/* Dropdown styling */
+#select_number_of_rows {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f9f9f9;
+    font-size: 14px;
+    font-weight: bold;
+    color: #283661;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#select_number_of_rows:focus {
+    border-color: #009688;
+    box-shadow: 0 0 6px rgba(0, 150, 136, 0.5);
+    outline: none;
+}
+
+#select_number_of_rows option {
+    padding: 6px;
+    font-weight: normal;
+}
+
+/* Downloaded files section */
+.download_section {
+    margin: 30px auto;
+    width: 80%;
+    max-width: 600px;
+    background: #ffffffcc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.download_section h3 {
+    text-align: center;
+    color: #283661;
+    margin-bottom: 15px;
+}
+
+#download_list {
+    list-style: none;
+    padding: 0;
+}
+
+#download_list li {
+    margin: 10px 0;
+}
+
+#download_list a {
+    display: inline-block;
+    padding: 10px 14px;
+    background: #fbc02d;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #283661;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#download_list a:hover {
+    background: #43a047;
+    color: white;
+    transform: scale(1.05);
+}
+
 /* Leaderboard */
 .leaderBoard {
     flex: 1;
@@ -203,42 +309,35 @@ li button {
     border-radius: 6px;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .form_container {
-        flex-direction: column;
-        width: 90%;
-        padding: 15px;
-    }
+/* Pagination */
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px auto;
+    gap: 12px;
+}
 
-    form {
-        flex-direction: column;
-        gap: 12px;
-    }
+#pagination button {
+    background: #fbc02d;
+    border: none;
+    padding: 10px 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    color: #283661;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
 
-    form > input,
-    select,
-    form > button {
-        width: 100%;
-    }
+#pagination button:hover {
+    background: #43a047;
+    color: white;
+    transform: scale(1.05);
+}
 
-    .display_list_leaderBoard {
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .expense_list,
-    .leaderBoard {
-        width: 90%;
-    }
-
-    .expense_list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    li button {
-        width: 100%;
-        margin: 5px 0;
-    }
+#current_page {
+    background: #1e88e5;
+    color: white
 }

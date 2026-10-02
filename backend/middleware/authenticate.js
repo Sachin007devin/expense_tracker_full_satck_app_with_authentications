@@ -4,13 +4,12 @@ const userModel = require('../models/user.model')
 const authenticate = async (req, res, next) => {
     try {
         const token = req.header('Authorization')
-        console.log(token, '<<<< from authenticate << token')
 
-        const userDetail = jwt.verify(token, 'testingsecret')
+        const userDetail = jwt.verify(token, process.env.SECRET_KEY)
 
         const user = await userModel.findByPk(userDetail.UserId)
         req.user = {id: user.id, username: user.Username , total_expense:user.total_expense}
-        console.log('req.user >>>>', req.user)
+        console.log('user detail >>>> form authenticate>>>>' , req.user)
         next()
     } catch (error) {
         console.error(error);

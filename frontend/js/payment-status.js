@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:7777";
+const BASE_URL = "http://65.0.122.121:7777";
 const token = localStorage.getItem("token");
 
 const urlParams = new URLSearchParams(window.location.search)

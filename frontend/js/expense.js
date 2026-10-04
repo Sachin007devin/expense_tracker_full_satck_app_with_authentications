@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => initialize())
 const form = document.querySelector('form')
 
-const API_URL = 'http://Localhost:7777/expense'
-const BASE_URL = 'http://Localhost:7777'
+const API_URL = 'http://65.0.122.121:7777/expense'
+const BASE_URL = 'http://65.0.122.121:7777'
 const token = localStorage.getItem('token')
 const rows_number = document.getElementById('select_number_of_rows')
 

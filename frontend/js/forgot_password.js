@@ -4,7 +4,7 @@ if (form) {
     form.addEventListener('submit', async (event) => handleFormSubmit(event))
 }
 
-const PASSWORD_API_URL = 'http://localhost:7777/password'
+const PASSWORD_API_URL = 'http://65.0.122.121:7777/password'
 
 async function handleFormSubmit(event) {
     try {

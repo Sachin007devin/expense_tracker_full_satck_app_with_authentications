@@ -1,6 +1,6 @@
-const EXPENSE_DOWNLOAD_URL = 'http://Localhost:7777/expense/download'
+const EXPENSE_DOWNLOAD_URL = 'http://65.0.122.121:7777/expense/download'
 const token = localStorage.getItem('token')
-const API_URL = 'http://Localhost:7777/expense/reportData'
+const API_URL = 'http://65.0.122.121:7777/expense/reportData'
 
 
 const reportData = [

@@ -54,7 +54,7 @@ const resetPassword = async (req, res) => {
             subject: 'Password Reset Request',
             htmlContent:
                 `<h3>Password Reset Request</h3> 
-                <a href='http://Localhost:7777/password/ResetPassword/${forgotPassReq.id}'>Click here to reset your password.</a>`
+                <a href='http://65.0.122.121:7777/password/ResetPassword/${forgotPassReq.id}'>Click here to reset your password.</a>`
         })
 
         console.log('Email sent successfully!')
@@ -90,7 +90,7 @@ const checkIsForgotPasswordRequestValid = async (req, res) => {
             return
         }
 
-        return res.redirect(`http://127.0.0.1:5500/frontend/resetPassword.html?request_id=${forgotPasswordRequestId}`)
+        return res.redirect(`http://65.0.122.121:5500/frontend/resetPassword.html?request_id=${forgotPasswordRequestId}`)
     } catch (error) {
         console.error(error)
         centralHandler.errorResponse(res, { statusCode: 500, error: error, message: 'Some Internal Server Error!!' })

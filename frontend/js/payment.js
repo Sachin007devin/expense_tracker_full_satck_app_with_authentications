@@ -1,4 +1,4 @@
-
+const BASE_URL='http://65.0.122.121:7777'
 
 document.getElementById("premium_btn").addEventListener("click", async () => {
   try {

@@ -62,10 +62,10 @@ const verifyPayment = async (req, res) => {
 
         // 3. User ko Direct `expense.html` Page par Redirect Kar Dein
         // Query param se status bhej rahe hain taaki frontend par Success/Failure msg dikha sako
-        return res.redirect(`http://127.0.0.1:5500/frontend/expense.html?order_id=${orderId}&status=${paymentStatus}`);
+        return res.redirect(`http://65.0.122.121:5500/frontend/expense.html?order_id=${orderId}&status=${paymentStatus}`);
     } catch (error) {
         console.log(error)
-        return res.redirect(`http://127.0.0.1:5500/frontend/expense.html?status=FAILED`);
+        return res.redirect(`http://65.0.122.121:5500/frontend/expense.html?status=FAILED`);
     }
 }
 

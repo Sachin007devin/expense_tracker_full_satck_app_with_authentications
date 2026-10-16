@@ -23,8 +23,7 @@ const createOrder = async (
                 "customer_phone": customerPhone//"9876543210"
             },
             "order_meta": {
-                // "return_url": "https://www.cashfree.com/devstudio/preview/pg/web/popupCheckout?order_id={order_id}"
-                "return_url":`http://localhost:7777/payments/payment-status/${orderId}`,
+                "return_url":`http://65.0.122.121:7777/payments/payment-status/${orderId}`,
                 "payment_methods": "cc,dc,upi"
             },
             "order_expiry_time": formattedExpiryDate//"2026-09-06T03:13:27.379Z"
@@ -33,7 +32,6 @@ const createOrder = async (
         const response = await cashfree.PGCreateOrder(request)
         return response.data
     } catch (error) {
-      console.error('Error:', error?.response?.data?.message || error.message);
       throw Error(error)
     }
 }

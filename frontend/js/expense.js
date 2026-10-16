@@ -6,6 +6,8 @@ const BASE_URL = 'http://65.0.122.121:7777'
 const token = localStorage.getItem('token')
 const rows_number = document.getElementById('select_number_of_rows')
 
+let isPremiumUser;
+
 if (!localStorage.getItem('display_expense_number_preference')) localStorage.setItem('display_expense_number_preference', JSON.stringify(5))
 else {
     rows_number.value = JSON.parse(localStorage.getItem('display_expense_number_preference'))
@@ -44,7 +46,7 @@ async function initialize() {
         const { data } = await axios.get(`${BASE_URL}/payments/premium-status`, { headers: { 'Authorization': token } })
         console.log(data.data.isPremiumUser, '<<<<<premium user data')
 
-        const isPremiumUser = data.data.isPremiumUser
+         isPremiumUser = data.data.isPremiumUser
 
         if (isPremiumUser) {
             const leaderBoard_data_response = await axios.get(`${BASE_URL}/premium/LeaderBoard`, { headers: { 'Authorization': token } })
@@ -111,6 +113,8 @@ async function handleSubmit(event) {
 
             const expns_btn = document.getElementById('expns_btn')
             expns_btn.firstChild.data = 'Add Expense'
+            const income_btn = document.getElementById('income_btn')
+        if (income_btn & isPremiumUser) income_btn.disabled = false
         }
     } catch (error) {
         console.error('Error submitting expense:', error)
@@ -119,8 +123,6 @@ async function handleSubmit(event) {
     finally {
         if (expns_btn) expns_btn.disabled = false
         form.reset()
-        const income_btn = document.getElementById('income_btn')
-        if (income_btn) income_btn.disabled = false
     }
 }
 
@@ -307,12 +309,17 @@ document.getElementById("premium_btn").addEventListener("click", async () => {
             paymentSessionId: data.paymentSessionId,
             redirectTarget: "_self"
         });
+console.log("Cashfree checkout result:", result);
         if (result.error) {
             console.log("User closed or payment failed:", result.error);
-            window.location.href = `http://127.0.0.1:5500/frontend/expense.html?status=FAILED`
+            window.location.href = `http://127.0.0.1/expense.html?status=FAILED`
         }
     } catch (error) {
-        alert("Payment failed: " + error.message);
+        
+    console.error("Payment error:", error);
+    console.error("Response:", error.response?.data);
+    alert("Payment failed: " + error.message);
+
     }
 });
 
@@ -351,4 +358,3 @@ document.getElementById('income_btn').onclick = async () => {
 
     }
 }
-

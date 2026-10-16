@@ -90,7 +90,7 @@ const checkIsForgotPasswordRequestValid = async (req, res) => {
             return
         }
 
-        return res.redirect(`http://65.0.122.121:5500/frontend/resetPassword.html?request_id=${forgotPasswordRequestId}`)
+        return res.redirect(`http://65.0.122.121/resetPassword.html?request_id=${forgotPasswordRequestId}`)
     } catch (error) {
         console.error(error)
         centralHandler.errorResponse(res, { statusCode: 500, error: error, message: 'Some Internal Server Error!!' })

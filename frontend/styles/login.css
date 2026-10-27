@@ -1,87 +1,511 @@
-body {
-    background: linear-gradient(45deg, #1f2324, transparent);
+/* ==========================================================================
+   RESET & GLOBAL VARIABLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    height: 70vh;
-    width: 100%;
+:root {
+    --bg-base: #0f131c;
+    --surface-card: #181c24;
+    --surface-input: #121620;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-bright: rgba(255, 255, 255, 0.15);
+    
+    --color-volt: #d4ff00;
+    --color-purple: #8b5cf6;
+    --color-blue: #06b6d4;
+    --text-primary: #dfe2ee;
+    --text-muted: #8c92a4;
+    
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
     display: flex;
-    flex-direction: column; /* ✅ so forgot button comes below form */
     justify-content: center;
     align-items: center;
+    padding: 2rem 1rem;
 }
 
-.form_container {
-    width: 35%;
-    max-width: 400px;
-    padding: 20px;
-    border-radius: 8px;
-    background: #ffffffcc; /* semi-transparent white */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+/* ==========================================================================
+   MAIN CONTAINER LAYOUT
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    justify-content: space-between;
 }
 
-form {
+/* ==========================================================================
+   HERO LEFT SECTION
+   ========================================================================== */
+.hero_section {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 1.25rem;
+    max-width: 540px;
+}
+
+.brand_logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand_dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-volt);
+    border-radius: 50%;
+}
+
+.brand_name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+}
+
+.brand_badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    margin-left: 0.5rem;
+}
+
+.hero_title {
+    font-family: var(--font-heading);
+    font-size: 3.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+}
+
+.highlight_text {
+    color: var(--color-volt);
+}
+
+.hero_subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Ledger Preview Tags */
+.ledger_preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tag_group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.tag_volt {
+    background: var(--color-volt);
+    color: #0b0f17;
+    border: none;
+    font-weight: 700;
+}
+
+.text_muted { color: var(--text-muted); font-size: 0.75rem; }
+.text_dark { color: #0b0f17; font-size: 0.75rem; font-weight: 700; }
+.text_volt { color: var(--color-volt); }
+
+/* Pulse Card Widget */
+.pulse_card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-bright);
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.pulse_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pulse_title_wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.icon_box {
+    background: rgba(212, 255, 0, 0.15);
+    color: var(--color-volt);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.85rem;
+}
+
+.pulse_title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.pulse_sub {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.balance_display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+}
+
+.amount_highlight {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-volt);
+}
+
+.amount_total {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.progress_bar {
     width: 100%;
-    font-weight: bolder;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
 }
 
-label,
-input,
-button,
-a {
-    margin-bottom: 10px;
+.progress_fill {
+    height: 100%;
+    background: var(--color-volt);
+    border-radius: 999px;
+}
+
+.pulse_footer_info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.pulse_stats {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.stat_item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.stat_dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-volt);
+    border-radius: 50%;
+}
+
+/* Hero Footer */
+.hero_footer {
+    display: flex;
+    align-items: center;
+}
+
+.social_proof {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar_stack {
+    display: flex;
+    gap: -6px;
+}
+
+.avatar_badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-base);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #0b0f17;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -8px;
+}
+
+.bg_purple { background: var(--color-purple); color: #fff; }
+.bg_blue { background: var(--color-blue); color: #fff; }
+.bg_volt { background: var(--color-volt); }
+
+.proof_text {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.75rem;
+}
+
+.proof_text strong { color: #fff; }
+.star { color: var(--text-muted); font-size: 0.7rem; }
+
+.security_note {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   RIGHT FORM CONTAINER & CONTRACT ELEMENTS
+   ========================================================================== */
+.form_container {
     width: 100%;
+    max-width: 440px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-bright);
+    border-radius: 1.5rem;
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-form > input {
-    background: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 4px;
+.form_top_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-form > button {
-    background: #009688;
-    color: white;
-    border-radius: 4px;
-    transition: background 0.3s ease;
-    padding: 10px;
-    font-weight: bold;
+/* Heading ID */
+#heading {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
 }
 
-form > button:hover {
-    background: #00796b;
+.secure_badge {
+    background: rgba(212, 255, 0, 0.1);
+    color: var(--color-volt);
+    border: 1px solid rgba(212, 255, 0, 0.3);
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
 }
 
-a {
-    color: #283661;
-    text-align: center;
+.form_subtext {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1.5rem;
 }
 
-a:hover {
-    background: #b0bbdc;
+/* Form Styling */
+.form_container form {
+    display: flex;
+    flex-direction: column;
 }
 
-/* ✅ Forgot Password button styling */
-#forgot_password_a {
-    margin-top: 15px;
-    background: #1e88e5;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    font-weight: bold;
-    border-radius: 6px;
+.form_container label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+
+.input_header_label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-align: right;
+    margin-bottom: 0.3rem;
+}
+
+.input_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.1rem;
+}
+
+.input_icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.password_eye {
+    position: absolute;
+    right: 1rem;
+    font-size: 0.85rem;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    width: 50%; /* smaller than form width */
+    opacity: 0.6;
+}
+
+/* Form Inputs */
+.form_container input {
+    width: 100%;
+    background: var(--surface-input);
+    border: 1px solid var(--border-color);
+    padding: 0.85rem 1rem 0.85rem 2.6rem;
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form_container input:focus {
+    border-color: var(--color-volt);
+    box-shadow: 0 0 0 3px rgba(212, 255, 0, 0.15);
+}
+
+.form_container input::placeholder {
+    color: #565d6d;
+}
+
+/* Submit Button */
+.form_container button[type="submit"] {
+    margin-top: 0.5rem;
+    background: var(--color-volt);
+    color: #0b0f17;
+    border: none;
+    padding: 0.95rem;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.form_container button[type="submit"]:hover {
+    opacity: 0.95;
+}
+
+.form_container button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Login Link */
+.login_link {
+    display: block;
     text-align: center;
+    margin-top: 1.1rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login_link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Forgot Password Link ID */
+#forgot_password_a {
+    display: block;
+    text-align: center;
+    margin-top: 1.25rem;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
 #forgot_password_a:hover {
-    background: #1565c0;
-    transform: scale(1.05);
+    color: var(--color-volt);
+}
+
+/* Bottom Biometric Badge */
+.form_bottom_badge {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Mobile / Tablet)
+   ========================================================================== */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .hero_section {
+        max-width: 100%;
+    }
+
+    .hero_title {
+        font-size: 2.5rem;
+    }
+
+    .form_container {
+        max-width: 100%;
+    }
 }

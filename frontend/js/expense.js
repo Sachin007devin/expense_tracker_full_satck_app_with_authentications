@@ -20,14 +20,11 @@ rows_number.onchange = async () => {
     } catch (error) {
         window.alert()
     }
-
-
 }
 
 if (form) {
     form.addEventListener('submit', async (event) => handleSubmit(event))
 }
-
 
 async function initialize() {
     try {
@@ -44,9 +41,8 @@ async function initialize() {
         // premium_user calls and logic
 
         const { data } = await axios.get(`${BASE_URL}/payments/premium-status`, { headers: { 'Authorization': token } })
-        console.log(data.data.isPremiumUser, '<<<<<premium user data')
 
-         isPremiumUser = data.data.isPremiumUser
+        isPremiumUser = data.data.isPremiumUser
 
         if (isPremiumUser) {
             const leaderBoard_data_response = await axios.get(`${BASE_URL}/premium/LeaderBoard`, { headers: { 'Authorization': token } })
@@ -59,13 +55,12 @@ async function initialize() {
             const premium_user_feature = document.querySelector('#premium_user_feature')
 
             premium_user_feature.style.display = 'block'
+            premium_user_feature.style.display = 'flex'
 
             const income_btn = document.getElementById('income_btn')
 
             if (income_btn) income_btn.disabled = false
 
-            // show list of file download before
-            //=> make api call,show table with anchor tag , that links hould be downloadable links
             const fileurl_response = await axios.get(`${API_URL}/downloaded/files`, { headers: { 'Authorization': token } })
 
             const fileUrls = fileurl_response.data.data
@@ -114,7 +109,7 @@ async function handleSubmit(event) {
             const expns_btn = document.getElementById('expns_btn')
             expns_btn.firstChild.data = 'Add Expense'
             const income_btn = document.getElementById('income_btn')
-        if (income_btn & isPremiumUser) income_btn.disabled = false
+            if (income_btn & isPremiumUser) income_btn.disabled = false
         }
     } catch (error) {
         console.error('Error submitting expense:', error)
@@ -148,28 +143,93 @@ async function addData(expnseObj) {
     }
 }
 
-function display(data) {
-    const ul = document.querySelector('ul')
-    const li = document.createElement('li')
-    li.id = data.id
-    li.textContent = `${data.Amount} - ${data.Description} - ${data.Category}`
-    ul.appendChild(li)
+ function display(data) {
+    // 1. Target or create the table container with id "expense_table"
+    let table = document.getElementById('expense_table');
 
-    const delete_btn = document.createElement('button')
-    delete_btn.textContent = 'Delete'
-    delete_btn.classList.add('delete_expns')
-    delete_btn.addEventListener('click', async () => deletData(data.id))
-
-    li.appendChild(delete_btn)
-
-    if (data.IsIncome === 'false') {
-        const edit_btn = document.createElement('button')
-        edit_btn.textContent = 'Edit'
-        edit_btn.classList.add('edit_expns')
-        edit_btn.addEventListener('click', async () => editData(data.id))
-
-        li.appendChild(edit_btn)
+    if (!table) {
+        // If the table doesn't exist at all, create it inside .expense_list
+        const expenseListDiv = document.querySelector('.expense_list');
+        table = document.createElement('table');
+        table.id = 'expense_table';
+        if (expenseListDiv) expenseListDiv.appendChild(table);
     }
+
+    // 2. Build the <thead> from scratch if it doesn't exist yet
+    let thead = table.querySelector('thead');
+    if (!thead) {
+        thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+
+        ['Amount', 'Description', 'Category / Type', 'Actions'].forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    }
+
+    // 3. Target or create the <tbody> from scratch
+    let tbody = table.querySelector('tbody');
+    if (!tbody) {
+        tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+    }
+
+    // 4. Create the new table row (<tr>) for the current data item
+    const tr = document.createElement('tr');
+    tr.id = data.id;
+
+    // --- Amount Column ---
+    const tdAmount = document.createElement('td');
+    const strongAmount = document.createElement('strong');
+
+    if (data.IsIncome === 'true' || data.IsIncome === true) {
+        strongAmount.className = 'amount_pos';
+        strongAmount.textContent = `+₹${data.Amount}`;
+    } else {
+        strongAmount.className = 'amount_neg';
+        strongAmount.textContent = `-₹${data.Amount}`;
+    }
+    tdAmount.appendChild(strongAmount);
+    tr.appendChild(tdAmount);
+
+    // --- Description Column ---
+    const tdDesc = document.createElement('td');
+    tdDesc.textContent = data.Description;
+    tr.appendChild(tdDesc);
+
+    // --- Category Column ---
+    const tdCat = document.createElement('td');
+    const spanCat = document.createElement('span');
+    spanCat.className = 'badge_category';
+    spanCat.textContent = data.Category || 'General';
+    tdCat.appendChild(spanCat);
+    tr.appendChild(tdCat);
+
+    // --- Actions Column (Delete & Edit Buttons) ---
+    const tdActions = document.createElement('td');
+
+    const delete_btn = document.createElement('button');
+    delete_btn.textContent = 'Delete';
+    delete_btn.classList.add('delete_expns', 'btn_small', 'btn_danger');
+    delete_btn.addEventListener('click', async () => deletData(data.id));
+    tdActions.appendChild(delete_btn);
+
+    if (data.IsIncome === 'false' || data.IsIncome === false) {
+        const edit_btn = document.createElement('button');
+        edit_btn.textContent = 'Edit';
+        edit_btn.classList.add('edit_expns', 'btn_small');
+        edit_btn.addEventListener('click', async () => editData(data.id));
+        tdActions.appendChild(edit_btn);
+    }
+
+    tr.appendChild(tdActions);
+
+    // 5. Append the row into the table body
+    tbody.appendChild(tr);
 }
 
 async function deletData(id) {
@@ -204,15 +264,50 @@ async function editData(id) {
 }
 
 function display_leaderBoard(data) {
-
-
-    const leaderBoard_ul = document.querySelector('#leaderBoard_ul')
-
-    for (let memberDetail of data) {
-        const leaderBoardMember = document.createElement('li')
-        leaderBoardMember.innerText = `${memberDetail.Username} With Expense Amount ${((memberDetail.total_expense != null ? memberDetail.total_expense : 0))}`
-        leaderBoard_ul.append(leaderBoardMember)
+    const leaderBoard_ul = document.querySelector('#leaderBoard_ul');
+    
+    // Clear any existing items to prevent duplication when reloading
+    if (leaderBoard_ul) {
+        leaderBoard_ul.innerHTML = '';
     }
+
+    // Loop through the array of member details
+    data.forEach((memberDetail, index) => {
+        const leaderBoardMember = document.createElement('li');
+        leaderBoardMember.classList.add('leaderboard_item');
+        
+        // Highlight top 3 ranks dynamically (rank_1, rank_2, rank_3)
+        const rank = index + 1;
+        if (rank <= 3) {
+            leaderBoardMember.classList.add(`rank_${rank}`);
+        }
+
+        // Calculate total expense securely with fallback to 0
+        const totalExpense = memberDetail.total_expense != null ? memberDetail.total_expense : 0;
+
+        // Construct internal elements matching your table/card styling
+        const spanRank = document.createElement('span');
+        spanRank.classList.add('rank_num');
+        spanRank.textContent = rank;
+
+        const spanName = document.createElement('span');
+        spanName.classList.add('user_name');
+        spanName.textContent = memberDetail.Username || 'Anonymous';
+
+        const spanScore = document.createElement('span');
+        spanScore.classList.add('user_score');
+        spanScore.textContent = `₹${totalExpense}`;
+
+        // Append child elements into the list item
+        leaderBoardMember.appendChild(spanRank);
+        leaderBoardMember.appendChild(spanName);
+        leaderBoardMember.appendChild(spanScore);
+
+        // Append the styled list item to the leaderboard unordered list
+        if (leaderBoard_ul) {
+            leaderBoard_ul.appendChild(leaderBoardMember);
+        }
+    });
 }
 
 async function getPageData(page) {
@@ -266,24 +361,59 @@ function displayPagination(pageData) {
 
 }
 
+// function displayDownloadedFileTable(urls) {
+//     const list = document.getElementById("download_list");
+
+//     list.innerHTML = ""; // clear old list
+
+//     urls.forEach(urlobj => {
+//         const li = document.createElement("li");
+//         const a = document.createElement("a");
+//         a.href = urlobj.url;
+//         console.log('url for file', urlobj)
+//         a.textContent = urlobj.url.split("/").pop(); // show filename
+//         a.target = "_blank"; // open in new tab
+//         a.download = "myexpense.csv";     // trigger download
+//         li.appendChild(a);
+//         list.appendChild(li);
+//     });
+//     const download_section = document.querySelector('.download_section')
+//     download_section.style.display = 'block'
+// }
+
 function displayDownloadedFileTable(urls) {
     const list = document.getElementById("download_list");
 
-    list.innerHTML = ""; // clear old list
+    if (list) {
+        list.innerHTML = ""; // clear old list
+    }
 
     urls.forEach(urlobj => {
         const li = document.createElement("li");
+        li.className = "download_item"; // Added class for styling
+
         const a = document.createElement("a");
         a.href = urlobj.url;
-        console.log('url for file', urlobj)
-        a.textContent = urlobj.url.split("/").pop(); // show filename
+        a.className = "report_link"; // Matches your Loot Pulse report link style
+        console.log('url for file', urlobj);
+        
+        // Show filename extracted from URL, with fallback if filename isn't parseable
+        const filename = urlobj.url ? urlobj.url.split("/").pop() : "expense_report.csv";
+        a.textContent = `📄 ${filename}`; 
+        
         a.target = "_blank"; // open in new tab
-        a.download = "myexpense.csv";     // trigger download
+        a.download = "myexpense.csv"; // trigger download
+
         li.appendChild(a);
-        list.appendChild(li);
+        if (list) {
+            list.appendChild(li);
+        }
     });
-    const download_section = document.querySelector('.download_section')
-    download_section.style.display = 'block'
+
+    const download_section = document.querySelector('.download_section');
+    if (download_section) {
+        download_section.style.display = 'block';
+    }
 }
 
 // premium btn logic
@@ -309,16 +439,16 @@ document.getElementById("premium_btn").addEventListener("click", async () => {
             paymentSessionId: data.paymentSessionId,
             redirectTarget: "_self"
         });
-console.log("Cashfree checkout result:", result);
+        console.log("Cashfree checkout result:", result);
         if (result.error) {
             console.log("User closed or payment failed:", result.error);
             window.location.href = `http://127.0.0.1/expense.html?status=FAILED`
         }
     } catch (error) {
-        
-    console.error("Payment error:", error);
-    console.error("Response:", error.response?.data);
-    alert("Payment failed: " + error.message);
+
+        console.error("Payment error:", error);
+        console.error("Response:", error.response?.data);
+        alert("Payment failed: " + error.message);
 
     }
 });
@@ -355,6 +485,7 @@ document.getElementById('income_btn').onclick = async () => {
         await addData(obj)
         form.reset()
     } catch (error) {
-
+console.error('Error adding income:', error);
+        alert(error.response?.data?.message || 'Failed to add income!');
     }
 }

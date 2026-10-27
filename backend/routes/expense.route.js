@@ -16,7 +16,7 @@ router.get('/download',authentication.authenticate,expenseController.downloadExp
 
 router.get('/downloaded/files',authentication.authenticate , expenseController.getDownloadedFiles)
 
-router.get('/reportData',authentication.authenticate,expenseController.fetchReportData)
+router.get('/reportData/:timeFilter',authentication.authenticate,expenseController.fetchReportData)
 
 router.get('/:id',authentication.authenticate,expenseController.getExpenseByid)
 

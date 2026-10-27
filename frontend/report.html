@@ -4,60 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./styles/report.css" rel="stylesheet"/>
-    <title>Expense Tracker App</title>
+    <link href="./styles/report.css" rel="stylesheet" />
+    <title>Loot Pulse — Expense Report</title>
+    <!-- Google Fonts for Neo-Brutalist/Modern UI look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <h1>Expense Report</h1>
+<body class="report_body">
+    <div class="report_container">
+        <!-- Header Section -->
+        <header class="report_header">
+            <h1>⚡ Loot Pulse Report</h1>
+            <p>Analyze your cash flow, income streams, and spending velocity.</p>
+        </header>
 
-    <!-- <div class="report-type">
-        <button id="daily">Daily</button>
-        <button id="weekly">Weekly</button>
-        <button id="monthly">Monthly</button>
+        <!-- Controls Bar: Filter & Download Button -->
+        <div class="report_controls_bar">
+            <div id="date_filter_container" class="filter_wrapper">
+                <label for="date_filter">Filter Range:</label>
+                <select id="date_filter" class="neo_select">
+                    <option value="Today" selected>Today</option>
+                    <option value="CurrentMonth">Current Month</option>
+                    <option value="CurrentYear">Current Year</option>
+                </select>
+            </div>
+            
+            <button id="download_report_btn" class="neo_btn_primary">📥 Download Report CSV</button>
+        </div>
+
+        <!-- Dynamic Content Mount Point -->
+        <div id="report_content_wrapper" class="glass_card">
+            <!-- Tables and Summary Cards will be injected dynamically here -->
+        </div>
     </div>
-
-    <table id="reportTable">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Income</th>
-                <th>Expense</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>01-09-2026</td>
-                <td>Milk</td>
-                <td>Groceries</td>
-                <td>-</td>
-                <td>60.00</td>
-            </tr>
-            <tr>
-                <td>02-09-2026</td>
-                <td>Salary</td>
-                <td>Income</td>
-                <td>40,000.00</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>03-09-2026</td>
-                <td>Travel</td>
-                <td>Transport</td>
-                <td>-</td>
-                <td>500.00</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="summary">
-        Total Income: ₹40,000.00 | Total Expense: ₹560.00 | Savings: ₹39,440.00
-    </div> -->
-
-<buton id="download_report_btn">Download Report</buton>
 </body>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.19.0/axios.min.js"></script>
 <script src="./js/report.js"></script>
 

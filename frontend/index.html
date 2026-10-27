@@ -4,34 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/index.css">
     <title>Expense App</title>
 </head>
 
 <body>
+    <!-- Main Outer Container -->
     <div class="container">
+
+        <!-- Left Hero Section (Decorative / Brand presentation) -->
+        <div class="hero_section">
+            <div class="brand_logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <span class="brand_name">Loot Pulse</span>
+                <span class="brand_badge">GEN Z FINTECH</span>
+            </div>
+
+            <h1 class="hero_title">Track loot,<br><span class="highlight_text">skip the guilt.</span></h1>
+
+            <p class="hero_subtitle">
+                Turn chaotic spending into clean financial energy. Split rent, track iced matchas, and auto-stash guilt-free cash with zero boomer spreadsheets.
+            </p>
+
+            <div class="ledger_preview">
+                <div class="ledger_header">
+                    <span>TAP TO PREVIEW LEDGER TAGS</span>
+                    <span class="active_count">42.8k active today</span>
+                </div>
+                <div class="tag_group">
+                    <span class="tag tag_volt">💸 $7.50 Matcha Habit</span>
+                    <span class="tag">🍕 2 AM Uber Surge</span>
+                    <span class="tag">🎧 Vinyl & Merch Drops</span>
+                    <span class="tag">✈️ Impulse Weekend Trips</span>
+                </div>
+            </div>
+
+            <div class="pulse_card">
+                <div class="pulse_header">
+                    <div class="pulse_title_wrap">
+                        <div class="icon_box">💜</div>
+                        <div>
+                            <div class="pulse_title">Live Pulse Check</div>
+                            <div class="pulse_sub">Real-time spending resilience</div>
+                        </div>
+                    </div>
+                    <span class="badge_safe">84% SAFE</span>
+                </div>
+                <div class="spending_zone">
+                    <span>Guilt-Free Spending Zone</span>
+                    <span class="amount_highlight">$840 / $1,000</span>
+                </div>
+                <div class="progress_bar">
+                    <div class="progress_fill" style="width: 84%;"></div>
+                </div>
+                <div class="pulse_stats">
+                    <div class="stat_item">
+                        <span class="stat_icon icon_lime">@</span>
+                        <span>Impulse alerts</span>
+                        <strong>2 flagged</strong>
+                    </div>
+                    <div class="stat_item">
+                        <span class="stat_icon icon_purple">⟳</span>
+                        <span>Auto-stash pool</span>
+                        <strong class="text_volt">+$142.50</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero_footer">
+                <div class="social_proof">
+                    <div class="avatar_stack">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="user">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="user">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="user">
+                        <span class="count_avatar">+42k</span>
+                    </div>
+                    <div class="proof_text">
+                        <strong>42,000+ creators & students</strong>
+                        <span>Tracking $3.2M guilt-free cash</span>
+                    </div>
+                </div>
+                <div class="rating_box">
+                    <span class="star">★ 4.9/5</span>
+                    <span class="reviews">(1.8k reviews)</span>
+                </div>
+            </div>
+
+            <div class="security_note">
+                🛡️ 256-bit bank-grade encryption • Zero data resale • Plaid verified
+            </div>
+        </div>
+
+        <!-- Right Form Section -->
         <div class="form_container">
             <h3 id="heading">Sign In</h3>
+            <p class="form_subtext">Enter your credentials to access your account.</p>
+
             <form>
                 <label for="user_name">Enter Your Name:-</label>
-                <input placeholder="Enter Your Name" required type="text" id="user_name" name="user_name" />
+                <div class="input_wrapper">
+                    <span class="input_icon">👤</span>
+                    <input placeholder="Enter Your Name" required type="text" id="user_name" name="user_name" />
+                </div>
 
                 <label for="user_email">Enter Your Email:-</label>
-                <input placeholder="Enter Your Email" required type="email" id="user_email" name="user_email" />
+                <div class="input_wrapper">
+                    <span class="input_icon">@</span>
+                    <input placeholder="Enter Your Email" required type="email" id="user_email" name="user_email" />
+                </div>
 
                 <label for="user_password">Enter Your Password:-</label>
-                <input placeholder="Enter Your Password" required type="password" id="user_password"
-                    name="user_password" maxlength="12" minlength="8"/>
+                <div class="input_wrapper">
+                    <span class="input_icon">🔒</span>
+                    <input placeholder="Enter Your Password" required type="password" id="user_password"
+                        name="user_password" maxlength="12" minlength="8" />
+                </div>
 
-                <button type="submit">Sign Up</button>
-                <a href="/login.html">Existing User?Login Here</a>
-
+                <button type="submit">Sign Up ➔</button>
+                <a href="./login.html" class="login_link">Existing User?Login Here</a>
             </form>
+
+            <a id="forgot_password_a" href="./forgotPassword.html">Forgot Password</a>
+
+            <div class="legal_links">
+                <a href="#">Terms of Service</a> •
+                <a href="#">Privacy Policy</a> •
+                <a href="#">Security</a>
+            </div>
         </div>
-         <a id="forgot_password_a" href="./forgotPassword.html">Forgot Password</a>
+
     </div>
+
+    <script src="./js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.20.0/axios.min.js"></script>   
 </body>
-<script src="./js/index.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.19.0/axios.min.js"></script>
 
 </html>

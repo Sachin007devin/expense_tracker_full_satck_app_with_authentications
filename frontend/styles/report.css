@@ -1,88 +1,181 @@
- body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
-      margin: 0;
-      padding: 20px;
-      color: #333;
-    }
+:root {
+    --bg-obsidian: #0f131c;
+    --card-bg: rgba(25, 30, 45, 0.75);
+    --volt-accent: #d4ff00;
+    --volt-hover: #b8e000;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --danger-red: #ff4757;
+    --success-green: #2ed573;
+    --border-color: rgba(212, 255, 0, 0.25);
+}
 
-    h1 {
-      text-align: center;
-      color: #00796b;
-      margin-bottom: 10px;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    .report-type {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+body.report_body {
+    background-color: var(--bg-obsidian);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+}
 
-    .report-type button {
-      background-color: #00796b;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.report_container {
+    width: 100%;
+    max-width: 900px;
+}
 
-    .report-type button:hover {
-      background-color: #004d40;
-    }
+.report_header {
+    margin-bottom: 1.5rem;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+.report_header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-    }
+.report_header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
 
-    th {
-      background-color: #00796b;
-      color: white;
-    }
+.report_controls_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+.filter_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
 
-    .summary {
-      margin-top: 20px;
-      text-align: right;
-      font-weight: bold;
-      color: #004d40;
-    }
-   
-  #download_report_btn {
-    background: linear-gradient(135deg, #00796b, #004d40);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
+.neo_select {
+    background: #151a28;
+    color: var(--text-main);
+    border: 2px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    outline: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    margin-top: 20px;
-    display: inline-block;
-  }
+}
 
-  #download_report_btn:hover {
-    background: linear-gradient(135deg, #004d40, #00251a);
+.neo_btn_primary {
+    background-color: var(--volt-accent);
+    color: #000;
+    font-weight: 800;
+    border: 2px solid #000;
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #000;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.neo_btn_primary:hover {
+    background-color: var(--volt-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 10px rgba(0,0,0,0.25);
-  }
+    box-shadow: 5px 5px 0px #000;
+}
 
-  #download_report_btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  }
+.glass_card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.table_responsive {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.neo_table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.neo_table th, 
+.neo_table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.neo_table th {
+    font-weight: 700;
+    color: var(--volt-accent);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+.neo_table tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.empty_table_msg {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem !important;
+}
+
+.amount_pos {
+    color: var(--success-green);
+    font-weight: 700;
+}
+
+.amount_neg {
+    color: var(--danger-red);
+    font-weight: 700;
+}
+
+.summary_card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    background: rgba(15, 19, 28, 0.9);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.summary_item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.summary_item span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.summary_item strong {
+    font-size: 1.25rem;
+}

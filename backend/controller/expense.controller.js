@@ -3,6 +3,7 @@ const userModel = require('../models/user.model')
 const fileUrlModel = require('../models/fileUrl.model')
 const centralHandler = require('../utils/central.handler')
 const sequelize = require('../utils/db.connection')
+const { Op } = require('sequelize')
 
 // migration model testing 
 const { ExpenseMigrated } = require('../migration_db/models')
@@ -33,8 +34,8 @@ async function uploadToS3(data, filename) {
         Bucket: BUCKET_NAME,
         Key: filename,
         Body: data,
-        ContentType: 'application/json',
-        ContentDisposition: 'attachment; filename="myexpense.json"',
+        ContentType: 'text/csv',
+        ContentDisposition: 'attachment; filename="myexpense.csv"',
         ACL: 'public-read'
     }
 
@@ -61,7 +62,7 @@ async function getAiResponse(expense_description) {
 const addExpense = async (req, res) => {
     const transaction = await sequelize.transaction()
     try {
-        const { expense_amount, expense_description,IsIncome } = req.body
+        const { expense_amount, expense_description, IsIncome } = req.body
         const userDetail = req.user
 
         if (!expense_amount || !expense_description || !IsIncome) {
@@ -77,12 +78,12 @@ const addExpense = async (req, res) => {
 
         // creating the category
         let expense_category;
-        if(IsIncome === 'true'){
-            expense_category='Income'
+        if (IsIncome === 'true') {
+            expense_category = 'Income'
         }
-        else{
+        else {
             // const expense_category = await getAiResponse(expense_description)
-             expense_category = 'testing_for_aws'
+            expense_category = 'testing_for_aws'
         }
 
 
@@ -90,14 +91,23 @@ const addExpense = async (req, res) => {
             Amount: expense_amount,
             Description: expense_description,
             Category: expense_category,
-            IsIncome:IsIncome,
+            IsIncome: IsIncome,
             UserId: userDetail.id
         }, { transaction })
 
-        if(IsIncome ==='false'){
+        if (IsIncome === 'false') {
 
             const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
             const updated_total_expense = Number(total_expense) + Number(expense_amount)
+
+            await userModel.update(
+                { total_expense: updated_total_expense },
+                { where: { id: userDetail.id }, transaction }
+            )
+        }
+        else {
+            const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
+            const updated_total_expense = Number(total_expense) - Number(expense_amount)
 
             await userModel.update(
                 { total_expense: updated_total_expense },
@@ -188,7 +198,7 @@ const editExpense = async (req, res) => {
         const { id } = req.params
         const userDetail = req.user
 
-        const { expense_amount, expense_description,IsIncome } = req.body
+        const { expense_amount, expense_description, IsIncome } = req.body
 
         if (!expense_amount || !expense_description || !IsIncome) {
             await transaction.rollback()
@@ -226,22 +236,22 @@ const editExpense = async (req, res) => {
         expense.Amount = expense_amount
         expense.Description = expense_description
 
-        if(IsIncome === 'false'){
+        if (IsIncome === 'false') {
 
             // expense.Category = await getAiResponse(expense_description)
-            expense.Category ='testing'
+            expense.Category = 'testing'
         }
-        else{
-            expense.Category ='Income'
+        else {
+            expense.Category = 'Income'
         }
 
         await expense.save({ transaction })
 
-        if(IsIncome ==='false'){
+        if (IsIncome === 'false') {
 
             const difference = Number(expense_amount) - oldAmount
             const user = await userModel.findByPk(userDetail.id, { transaction })
-    
+
             user.total_expense = Number(user.total_expense || 0) + difference
             await user.save({ transaction })
         }
@@ -335,17 +345,25 @@ const deleteExpense = async (req, res) => {
 
         await ExpenseDetail.destroy({ transaction })
 
-        if(IsIncome === 'false'){
+        if (IsIncome === 'false') {
 
             const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
             const updated_total_expense = Number(total_expense) - Number(expense_amount)
-    
+
             await userModel.update(
                 { total_expense: updated_total_expense },
                 { where: { id: userDetail.id }, transaction }
             )
         }
+        else {
+            const total_expense = userDetail.total_expense === null ? 0 : userDetail.total_expense
+            const updated_total_expense = Number(total_expense) + Number(expense_amount)
 
+            await userModel.update(
+                { total_expense: updated_total_expense },
+                { where: { id: userDetail.id }, transaction }
+            )
+        }
         await transaction.commit()
 
         const dataObj = {
@@ -368,54 +386,74 @@ const deleteExpense = async (req, res) => {
 
 const downloadExpense = async (req, res) => {
     try {
-        const userDetail = req.user
-        console.log('user detail from download expense controller=>', userDetail)
+        const userDetail = req.user;
+        console.log('user detail from download expense controller=>', userDetail);
         const expenses = await expenseModel.findAll({
             where: {
                 UserId: userDetail.id
             },
             raw: true
-        })
+        });
 
         if (!expenses || expenses.length === 0) {
             const err = {
                 statusCode: 404,
                 error: 'Expense not found',
                 message: 'No expenses found for this user. Try adding some expenses first!'
-            }
-            return centralHandler.errorResponse(res, err)
+            };
+            return centralHandler.errorResponse(res, err);
         }
 
+        // --- CONVERT EXPENSES ARRAY TO CSV STRING ---
+        const headers = ['id', 'Amount', 'Description', 'Category', 'IsIncome', 'createdAt'];
+        const csvRows = [];
 
-        const stringifiedExpenses = JSON.stringify(expenses)
-        const filename = `expenses/user_${userDetail.id}/${Date.now()}_expense.json`
-        const fileUrl = await uploadToS3(stringifiedExpenses, filename)
+        // Add header row
+        csvRows.push(headers.join(','));
 
-        const isFileUrlStored = await fileUrlModel.create({ url: fileUrl, UserId: userDetail.id })
+        // Add data rows
+        expenses.forEach(exp => {
+            const row = [
+                exp.id,
+                `"${exp.Amount || 0}"`,
+                `"${(exp.Description || '').replace(/"/g, '""')}"`, // escape double quotes
+                `"${exp.Category || 'General'}"`,
+                exp.IsIncome,
+                `"${exp.createdAt || ''}"`
+            ];
+            csvRows.push(row.join(','));
+        });
+
+        const csvString = csvRows.join('\n');
+
+        const filename = `expenses/user_${userDetail.id}/${Date.now()}_expense.csv`;
+        const fileUrl = await uploadToS3(csvString, filename);
+
+        const isFileUrlStored = await fileUrlModel.create({ url: fileUrl, UserId: userDetail.id });
 
         if (!isFileUrlStored) {
             const err = {
                 statusCode: 500,
                 error: 'url not stored in db',
                 message: 'there is some error while storing url in db'
-            }
-            return centralHandler.errorResponse(res, err)
+            };
+            return centralHandler.errorResponse(res, err);
         }
 
         const dataObj = {
             statusCode: 200,
             message: 'expense file url generated',
             data: { fileUrl }
-        }
-        centralHandler.response(res, dataObj)
+        };
+        centralHandler.response(res, dataObj);
     } catch (error) {
-        console.error('Error in downloadExpense controller:', error)
+        console.error('Error in downloadExpense controller:', error);
         const err = {
             statusCode: 500,
             error: error.message,
             message: 'Some internal error occurred'
-        }
-        return centralHandler.errorResponse(res, err)
+        };
+        return centralHandler.errorResponse(res, err);
     }
 }
 
@@ -457,17 +495,37 @@ const getDownloadedFiles = async (req, res) => {
 
 const fetchReportData = async (req, res) => {
     try {
-        
+
         const userDetail = req.user
-        console.log('usedetail>>>>',userDetail)
+        const { timeFilter } = req.params
+        console.log('usedetail>>>>', userDetail)
+
+        let startTimeFilter;
+        let endTimeFilter;
+        const now = new Date()
+        if (timeFilter === 'Today') {
+            startTimeFilter = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+        }
+        else if (timeFilter === 'CurrentMonth') {
+            startTimeFilter = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+        }
+        else {
+            startTimeFilter = new Date(now.getFullYear(), 0, 1, 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), 11, 31, 23, 59, 59)
+        }
         const expenses = await expenseModel.findAll({
-            where:{
-                UserId: userDetail.id
+            where: {
+                UserId: userDetail.id,
+                createdAt: {
+                    [Op.between]: [startTimeFilter, endTimeFilter]
+                }
             },
-            order:[['createdAt','ASC']]
+            order: [['createdAt', 'ASC']]
         })
 
-        if (!expenses) {
+        if (expenses.length === 0) {
             const err = {
                 statusCode: 400,
                 error: 'expense not found for the user',

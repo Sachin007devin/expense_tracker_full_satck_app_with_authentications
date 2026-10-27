@@ -4,31 +4,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/login.css">
-    <title>Expense App</title>
+    <title>Expense App - Login</title>
 </head>
 
 <body>
+    <!-- Main Outer Container -->
     <div class="container">
+
+        <!-- Left Hero Section (Decorative / Brand presentation) -->
+        <div class="hero_section">
+            <div class="brand_logo">
+                <span class="brand_dot"></span>
+                <span class="brand_name">GEN Z FINTECH</span>
+                <span class="brand_badge">⚡ v2.4 REAL-TIME TELEMETRY</span>
+            </div>
+
+            <h1 class="hero_title">Log in, lock in<br><span class="highlight_text">your loot.</span></h1>
+
+            <p class="hero_subtitle">
+                Pick up where you left off. Review your guilt-free stash, recent splits, and real-time cash energy without institutional lecture.
+            </p>
+
+            <div class="ledger_preview">
+                <div class="tag_group">
+                    <span class="tag">🌮 Late Night Taco Run <span class="text_muted">-$14.20</span></span>
+                    <span class="tag">🎧 Spotify Duo Split <span class="text_volt">+-$7.50</span></span>
+                </div>
+                <div class="tag_group">
+                    <span class="tag tag_volt">✨ Thrift Haul Surplus <span class="text_dark">Safe +$82</span></span>
+                </div>
+            </div>
+
+            <div class="pulse_card">
+                <div class="pulse_header">
+                    <div class="pulse_title_wrap">
+                        <div class="icon_box">⚡</div>
+                        <div>
+                            <div class="pulse_title">LIVE PULSE CHECK</div>
+                            <div class="pulse_sub">Safe Spending Balance</div>
+                        </div>
+                    </div>
+                    <div class="balance_display">
+                        <span class="amount_highlight">$720</span>
+                        <span class="amount_total">/ $1,000</span>
+                    </div>
+                </div>
+                <div class="progress_bar">
+                    <div class="progress_fill" style="width: 72%;"></div>
+                </div>
+                <div class="pulse_footer_info">
+                    <span>72% Unlocked buffer</span>
+                    <span class="text_volt">Healthy Flow</span>
+                </div>
+                <div class="pulse_stats">
+                    <div class="stat_item">
+                        <span class="stat_dot"></span>
+                        <span>Auto-stash pool:</span>
+                        <strong class="text_volt">+$142.50 this week</strong>
+                    </div>
+                    <div class="stat_item">
+                        <span>〰️ Zero guilt detected</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero_footer">
+                <div class="social_proof">
+                    <div class="avatar_stack">
+                        <span class="avatar_badge bg_purple">JP</span>
+                        <span class="avatar_badge bg_blue">AL</span>
+                        <span class="avatar_badge bg_volt">KR</span>
+                    </div>
+                    <div class="proof_text">
+                        <strong>42,000+ creators & students</strong>
+                        <span class="star">★ 4.9/5 (1.8k reviews)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security_note">
+                🛡️ 256-bit bank encryption • Plaid verified
+            </div>
+        </div>
+
+        <!-- Right Form Section -->
         <div class="form_container">
-            <h3 id="heading">Log In</h3>
+            <div class="form_top_row">
+                <h3 id="heading">Log In</h3>
+                <span class="secure_badge">SECURE</span>
+            </div>
+            <p class="form_subtext">Access your safe cash, vaults, and split tickets.</p>
+
             <form>
                 <label for="user_email">Enter Your Email:-</label>
-                <input placeholder="Enter Your Email" required type="email" id="user_email" name="user_email" />
+                <div class="input_header_label">Primary Email</div>
+                <div class="input_wrapper">
+                    <span class="input_icon">@</span>
+                    <input placeholder="Enter Your Email" required type="email" id="user_email" name="user_email" />
+                </div>
 
                 <label for="user_password">Enter Your Password:-</label>
-                <input placeholder="Enter Your Password" required type="password" id="user_password"
-                    name="user_password" maxlength="12" minlength="8"/>
+                <div class="input_header_label">8-12 chars</div>
+                <div class="input_wrapper">
+                    <span class="input_icon">🔑</span>
+                    <input placeholder="Enter Your Password" required type="password" id="user_password"
+                        name="user_password" maxlength="12" minlength="8" />
+                    <span class="password_eye">👁️</span>
+                </div>
 
-                <button type="submit">Log In</button>
-                <a href="/">Don't Have An Account?Click To get registered with us</a>
-
+                <button type="submit">LOG IN ➔</button>
+                <a href="/index.html" class="login_link">Don't Have An Account?Click To get registered with us</a>
             </form>
+
+            <a id="forgot_password_a" href="./forgotPassword.html">Forgot Password</a>
+
+            <div class="form_bottom_badge">
+                Tap & verify • Instant biometrics supported on mobile
+            </div>
         </div>
-        <a id="forgot_password_a" href="./forgotPassword.html">Forgot Password</a>
+
     </div>
+
+    <script src="./js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.20.0/axios.min.js"></script>
 </body>
-<script src="./js/login.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.19.0/axios.min.js"></script>
 
 </html>

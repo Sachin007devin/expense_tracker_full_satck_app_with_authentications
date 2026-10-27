@@ -4,75 +4,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts for Loot Pulse Design System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/expense.css">
-    <title>Expense Tracker App</title>
+    <title>Expense Tracker App - Loot Pulse</title>
 </head>
 
 <body>
-    <div class="premium">
-        <button id="premium_btn">Buy Premium Features</button>
-        <div id="premium_user_feature">
-            <span>You are a Premium User now</span>
-            <button id="show_leaderBoard">Show LeaderBoard</button>
-            <button id="generate_report">Generate Report </button>
+    <!-- Top Navigation / Premium Banner Bar -->
+    <header class="app_header">
+        <div class="brand_wrap">
+            <span class="brand_icon">⚡</span>
+            <h1 class="brand_title">Loot Pulse <span class="badge_sub">TRACKER</span></h1>
         </div>
-    </div>
-    <div class="form_container">
 
-        <form>
-            <label for="expense_amount"> Choose Expense Amount:</label>
-            <input type="number" required id="expense_amount" placeholder="Enter Expense Amount"
-                name="expense_amount" />
-
-            <label for="expense_description">Enter Description :</label>
-            <input type="text" required id="expense_description" placeholder="Enter Expense Description"
-                name="expense_description" />
-
-            <!-- <label for="expense_category"> Choose Expense Category:</label>
-            <select id="expense_category" default="" name="expense_category">
-                <option value="On Vaccation">On Vaccation</option>
-                <option value="diesel">diesel</option>
-                <option value="toffe">toffe</option>
-                <option value="movie">movie</option>
-            </select> -->
-            <button type="submit" id="expns_btn" class="add_expns">Add Expense</button>
-        </form>
-        <button id="income_btn" class="income_expns" disabled="true">Add Income</button>
-    </div>
-    <label for="select_number_of_rows">Select Number of Expenses to display</label>
-    <select id="select_number_of_rows">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
-    </select>
-    <div class="display_list_leaderBoard">
-
-        <div class="expense_list">
-            <!-- <ul><li>expense1<button class="edit_expns">Edit</button><button class="delete_expns">Delete</button></li></ul> -->
-            <ul></ul>
+        <div class="premium" >
+            <button id="premium_btn" class="btn_volt_glow">⚡ Buy Premium Features</button>
+            <div id="premium_user_feature" style="display: none;">
+                <span class="premium_active_badge" >👑 You are a Premium User now</span>
+                <button id="show_leaderBoard" class="btn_secondary">🏆 Show LeaderBoard</button>
+                <button id="generate_report" class="btn_tertiary">📊 Generate Report</button>
+            </div>
         </div>
-        <div class="leaderBoard">
-            <ul id="leaderBoard_ul">
-                <!-- <li>sachin sri expense 200</li>
-                <li>sachin bgr expense 100</li> -->
-            </ul>
-        </div>
-    </div>
-    <div id="pagination">
-        <button id="previous_page" style="display: none;">1</button>
-        <button id="current_page" style="display: none;">2</button>
-        <button id="next_page" style="display: none;">3</button>
-    </div>
-    <div class="download_section" style="display: none;">
-        <h3>Previously Downloaded Expense Reports</h3>
-        <ul id="download_list"></ul>
-    </div>
-    <!-- Cashfree SDK (must be after your JS so it's available globally) -->
+    </header>
+
+    <main class="dashboard_container">
+        <!-- Left Column: Input Form & Pagination Control -->
+        <section class="control_section">
+            <div class="form_container card_glass">
+                <h3>Add New Transaction</h3>
+                <form>
+                    <div class="input_group">
+                        <label for="expense_amount">Choose Expense Amount:</label>
+                        <input type="number" required id="expense_amount" placeholder="e.g. 150" name="expense_amount" />
+                    </div>
+
+                    <div class="input_group">
+                        <label for="expense_description">Enter Description:</label>
+                        <input type="text" required id="expense_description" placeholder="e.g. Weekend Matcha & Tacos" name="expense_description" />
+                    </div>
+
+                    <div class="form_actions">
+                        <button type="submit" id="expns_btn" class="add_expns btn_primary">Add Expense</button>
+                        <button type="button" id="income_btn" class="income_expns btn_secondary" disabled="true">Add Income</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Rows Control -->
+            <div class="pagination_control card_glass">
+                <label for="select_number_of_rows">Rows per page:</label>
+                <select id="select_number_of_rows">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Right Column: Tables, Feed & Leaderboard -->
+        <section class="telemetry_section">
+            <div class="display_list_leaderBoard">
+                
+                <!-- Expense Table Feed -->
+                <div class="expense_list card_glass">
+                    <div class="section_title_row">
+                        <h3>Active Ledger</h3>
+                        <span class="live_tag">Real-time sync</span>
+                    </div>
+                    
+                    <div class="table_responsive">
+                        <table id="expense_table">
+                            <!-- <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Category / Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                Dummy Data Rows for UI preview 
+                                <tr>
+                                    <td><strong class="amount_neg">-$14.20</strong></td>
+                                    <td>Late Night Taco Run 🌮</td>
+                                    <td><span class="badge_category">Food & Dining</span></td>
+                                    <td>
+                                        <button class="edit_expns btn_small">Edit</button>
+                                        <button class="delete_expns btn_small btn_danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="amount_pos">+$142.50</strong></td>
+                                    <td>Weekly Auto-stash Pool ⟳</td>
+                                    <td><span class="badge_category volt_cat">Savings</span></td>
+                                    <td>
+                                        <button class="edit_expns btn_small">Edit</button>
+                                        <button class="delete_expns btn_small btn_danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="amount_neg">-$7.50</strong></td>
+                                    <td>Spotify Duo Split 🎧</td>
+                                    <td><span class="badge_category">Subscriptions</span></td>
+                                    <td>
+                                        <button class="edit_expns btn_small">Edit</button>
+                                        <button class="delete_expns btn_small btn_danger">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody> -->
+                        </table> 
+                    </div>
+                    <!-- Fallback unordered list structure in case JS targets ul directly -->
+                    <ul style="display: none;"></ul>
+                </div>
+
+                <!-- Leaderboard Panel -->
+                <div class="leaderBoard card_glass" style="display: none;">
+                    <div class="section_title_row">
+                        <h3>🏆 Global Leaderboard</h3>
+                        <span class="live_tag">Top Savers</span>
+                    </div>
+                    <ul id="leaderBoard_ul">
+                        <!-- Dummy LeaderBoard Data -->
+                        <!-- <li class="leaderboard_item rank_1">
+                            <span class="rank_num">1</span>
+                            <span class="user_name">Sachin Srivastava</span>
+                            <span class="user_score">₹24,200 saved</span>
+                        </li>
+                        <li class="leaderboard_item rank_2">
+                            <span class="rank_num">2</span>
+                            <span class="user_name">Sachin BGR</span>
+                            <span class="user_score">₹18,500 saved</span>
+                        </li>
+                        <li class="leaderboard_item rank_3">
+                            <span class="rank_num">3</span>
+                            <span class="user_name">Ananya Roy</span>
+                            <span class="user_score">₹12,400 saved</span>
+                        </li> -->
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Pagination Bar -->
+            <div id="pagination" class="pagination_bar">
+                <button id="previous_page" class="page_btn">1</button>
+                <button id="current_page" class="page_btn active">2</button>
+                <button id="next_page" class="page_btn">3</button>
+            </div>
+
+            <!-- Download Section -->
+            <div class="download_section card_glass">
+                <h3>Previously Downloaded Expense Reports</h3>
+                <ul id="download_list">
+                    <!-- <li><a href="#" class="report_link">📄 Report_Oct_2026_Final.csv</a> (Downloaded on Oct 24)</li> -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cashfree SDK & Axios -->
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/expense.js"></script>
-
 </body>
 
 </html>

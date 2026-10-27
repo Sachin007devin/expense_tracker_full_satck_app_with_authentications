@@ -20,6 +20,9 @@ async function handleFormSubmit(event) {
         if (data) {
             const reset_msg = document.getElementsByClassName('reset_msg')[0]
             reset_msg.style.display = 'block'
+            setTimeout(() => {
+                reset_msg.style.display = 'none'
+            }, 3000);
         }
 
 

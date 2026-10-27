@@ -57,8 +57,8 @@ const resetPassword = async (req, res) => {
                 <a href='http://65.0.122.121:7777/password/ResetPassword/${forgotPassReq.id}'>Click here to reset your password.</a>`
         })
 
-        console.log('Email sent successfully!')
-        console.log(result)
+        // console.log('Email sent successfully!')
+        // console.log(result)
 
         centralHandler.response(res, { statusCode: 200, message: 'Email sent successfully!', data: result })
     } catch (error) {

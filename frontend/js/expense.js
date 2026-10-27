@@ -123,19 +123,21 @@ async function handleSubmit(event) {
 
 async function addData(expnseObj) {
     try {
-
         const { data } = await axios.post(`${API_URL}`, expnseObj, { headers: { 'Authorization': token } })
-        console.log(data.data, 'from add')
         const dataResponse = data.data
         display(dataResponse)
 
-        const ul = document.querySelector('ul')
-        if (ul) {
-            console.log('entered ul check for pagination stuff')
-            const total_expense_count = ul.childElementCount
-            const rows_limit = Number(JSON.parse(localStorage.getItem('display_expense_number_preference')))
+        const table = document.getElementById('expense_table')
+        if (table) {
+            const tbody = table.querySelector('tbody')
+            if (tbody) {
+                const total_expense_count = tbody.childElementCount
+                const rows_limit = Number(JSON.parse(localStorage.getItem('display_expense_number_preference')))
 
-            if (total_expense_count > rows_limit) await getPageData(1)
+                if (total_expense_count > rows_limit) {
+                    await getPageData(1)
+                }
+            }
         }
     } catch (error) {
         alert(error.response?.data?.message || 'Something went wrong!')
@@ -309,20 +311,32 @@ function display_leaderBoard(data) {
         }
     });
 }
-
 async function getPageData(page) {
     try {
         const rows_limit = Number(JSON.parse(localStorage.getItem('display_expense_number_preference')))
 
         const getExpenseByPage = await axios.get(`${API_URL}?pageNumber=${page}&rows_limit=${rows_limit}`, { headers: { 'Authorization': token } })
 
-        const expense_ul = document.querySelector('ul')
-        expense_ul.innerHTML = ''
+        // 1. Target the table and clear/reset its <tbody> body content
+        const table = document.getElementById('expense_table')
+        if (table) {
+            let tbody = table.querySelector('tbody')
+            if (tbody) {
+                tbody.innerHTML = '' // Clear existing rows before loading the new page
+            } else {
+                tbody = document.createElement('tbody')
+                table.appendChild(tbody)
+            }
+        }
 
         const { expenses, ...pageData } = getExpenseByPage.data.data
+        
+        // 2. Loop through the paginated expense array and render them into the table body
         for (let expenseObj of expenses) {
             display(expenseObj)
         }
+        
+        // 3. Update pagination controls
         displayPagination(pageData)
 
     } catch (error) {
@@ -330,7 +344,6 @@ async function getPageData(page) {
         throw Error(error)
     }
 }
-
 
 function displayPagination(pageData) {
 

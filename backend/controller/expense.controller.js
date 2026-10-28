@@ -82,8 +82,8 @@ const addExpense = async (req, res) => {
             expense_category = 'Income'
         }
         else {
-            // const expense_category = await getAiResponse(expense_description)
-            expense_category = 'testing_for_aws'
+            const expense_category = await getAiResponse(expense_description)
+            // expense_category = 'testing_for_aws'
         }
 
 
@@ -238,8 +238,8 @@ const editExpense = async (req, res) => {
 
         if (IsIncome === 'false') {
 
-            // expense.Category = await getAiResponse(expense_description)
-            expense.Category = 'testing'
+            expense.Category = await getAiResponse(expense_description)
+            // expense.Category = 'testing'
         }
         else {
             expense.Category = 'Income'

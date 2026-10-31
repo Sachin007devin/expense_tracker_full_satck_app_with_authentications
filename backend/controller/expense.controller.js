@@ -525,16 +525,6 @@ const fetchReportData = async (req, res) => {
             order: [['createdAt', 'ASC']]
         })
 
-        if (expenses.length === 0) {
-            const err = {
-                statusCode: 400,
-                error: 'expense not found for the user',
-                message: 'try adding some expenses first!!'
-            }
-            centralHandler.errorResponse(res, err)
-            return
-        }
-
         const dataObj = {
             statusCode: 200,
             message: 'expenses fetched successfully',

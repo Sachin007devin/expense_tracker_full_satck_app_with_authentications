@@ -7,6 +7,7 @@ const fetch_LeaderBoard_Data = async (req, res) => {
         const user = await userModel.findAll({
             attributes:['Username','total_expense'],
             order:[['total_expense','DESC']],
+            limit:5,
             raw:true
             
         })

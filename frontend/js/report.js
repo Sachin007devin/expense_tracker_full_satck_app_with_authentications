@@ -139,9 +139,9 @@ async function displayReport(timeFilter) {
     try {
         const reportData = await axios.get(`${API_URL}/${timeFilter}`, { headers: { 'Authorization': token } });
         const reportData_response = reportData.data.data;
-        console.log(reportData_response);
+        // console.log(reportData_response);
 
-        createReportTable(reportData_response);
+       createReportTable(reportData_response);
     } catch (error) {
         alert(error.message || 'Something went wrong!');
         throw Error(error);

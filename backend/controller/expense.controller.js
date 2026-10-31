@@ -55,7 +55,18 @@ async function getAiResponse(expense_description) {
         return response.output_text
     } catch (error) {
         console.log(error)
-        throw Error(error)
+        console.error('Gemini Error Message:', error.message);
+        console.error('Gemini Error Status:', error.status);
+        console.error(
+            'Gemini Error Details:',
+            JSON.stringify(
+                error.response?.data ?? error.errorDetails ?? {},
+                null,
+                2
+            )
+        );
+
+        throw Error(error);
     }
 }
 
@@ -82,7 +93,7 @@ const addExpense = async (req, res) => {
             expense_category = 'Income'
         }
         else {
-            const expense_category = await getAiResponse(expense_description)
+            expense_category = await getAiResponse(expense_description)
             // expense_category = 'testing_for_aws'
         }
 

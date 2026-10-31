@@ -397,11 +397,30 @@ const deleteExpense = async (req, res) => {
 
 const downloadExpense = async (req, res) => {
     try {
+        const { timeFilter } = req.params
         const userDetail = req.user;
-        console.log('user detail from download expense controller=>', userDetail);
+
+        let startTimeFilter;
+        let endTimeFilter;
+        const now = new Date()
+        if (timeFilter === 'Today') {
+            startTimeFilter = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+        }
+        else if (timeFilter === 'CurrentMonth') {
+            startTimeFilter = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+        }
+        else {
+            startTimeFilter = new Date(now.getFullYear(), 0, 1, 0, 0, 0)
+            endTimeFilter = new Date(now.getFullYear(), 11, 31, 23, 59, 59)
+        }
         const expenses = await expenseModel.findAll({
             where: {
-                UserId: userDetail.id
+                UserId: userDetail.id,
+                createdAt: {
+                    [Op.between]: [startTimeFilter, endTimeFilter]
+                }
             },
             raw: true
         });

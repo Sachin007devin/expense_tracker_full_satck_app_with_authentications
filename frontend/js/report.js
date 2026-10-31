@@ -151,9 +151,9 @@ async function displayReport(timeFilter) {
 const download_report_btn = document.getElementById('download_report_btn');
 download_report_btn.onclick = async () => {
     try {
-        const { data } = await axios.get(EXPENSE_DOWNLOAD_URL, { headers: { 'Authorization': token } });
+        const timeFilter = date_filter.value;
+        const { data } = await axios.get(`${EXPENSE_DOWNLOAD_URL}/${timeFilter}`, { headers: { 'Authorization': token } });
         const url = data.data.fileUrl;
-        console.log('url of expense file==>>>>', url);
 
         const a = document.createElement('a');
         a.href = url;

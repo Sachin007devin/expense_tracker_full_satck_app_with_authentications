@@ -12,7 +12,7 @@ router.post('/migrated_expense',expenseController.addMigratedExpense)
 
 router.get('/',authentication.authenticate,expenseController.getExpenses)
 
-router.get('/download',authentication.authenticate,expenseController.downloadExpense)
+router.get('/download/:timeFilter',authentication.authenticate,expenseController.downloadExpense)
 
 router.get('/downloaded/files',authentication.authenticate , expenseController.getDownloadedFiles)
 
